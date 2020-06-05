@@ -89,15 +89,13 @@ class TodoContextProvider extends Component {
 		axios
 			.put('api/laboratorio/update/' + data.id, data)
 			.then((response) => {
-				console.log(data);
 				if (response.data.message.level === 'success') {
 					let todos = [ ...this.state.todos ];
 					let todo = todos.find((todo) => {
 						return todo.id === data.id;
 					});
-
-					todo.usuario_id = response.data.todo.usuario_id;
 					todo.codlaboratorio = response.data.todo.codlaboratorio;
+					todo.usuario_id = response.data.todo.usuario_id;
 					todo.nombre = response.data.todo.nombre;
 					todo.ubicacion = response.data.todo.ubicacion;
 					todo.observacion = response.data.todo.observacion;
@@ -117,10 +115,46 @@ class TodoContextProvider extends Component {
 			});
 	}
 
+	updateElemento(data) {
+
+		data.codelemento.forEach(elemento => {
+			let informacion = [elemento,data.id]
+			axios
+			.put('api/elemento/update/' + elemento, informacion)
+			.then((response) => {
+				if(response.data.message.level === 'success'){
+					let todos = [ ...this.state.todos ];
+					let todo = todos.find((todo) => {
+						return todo.id === data.id;
+					});
+					todo.codelemento = response.data.todo.codelemento;
+					todo.elemento = response.data.todo.elemento;
+					todo.stock = response.data.todo.stock;
+					todo.horauso = response.data.todo.horauso;
+					todo.categoria = response.data.todo.categoria;
+					todo.estado = response.data.todo.estado;
+	
+					this.setState({
+						todos: todos,
+						message: response.data.message,
+					});
+				} else { 
+					this.setState({
+						message: response.data.message,
+					})
+				}
+
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+		});
+    }
+
 	//delete
 	deleteTodo(data) {
 		axios
-			.delete('api/laboratorio/delete/' + data.id)
+			.delete('api/laboratorio/delete/' + data.id, data)
 			.then((response) => {
 				if (response.data.message.level === 'success') {
 					let todos = [ ...this.state.todos ];
@@ -152,6 +186,7 @@ class TodoContextProvider extends Component {
 					...this.state,
 					createTodo: this.createTodo.bind(this),
 					updateTodo: this.updateTodo.bind(this),
+					updateElemento: this.updateElemento.bind(this),
 					deleteTodo: this.deleteTodo.bind(this),
 					setMessage: (message) => this.setState({ message: message })
 				}}

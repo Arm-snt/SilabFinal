@@ -22,6 +22,11 @@ class Elemento
     private $codelemento;
 
     /**
+     * @ORM\Column(type="integer")
+     */
+    private $laboratorio_id;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $elemento;
@@ -142,6 +147,6 @@ class Elemento
     }
 
     public function toArray(){
-        return ['id'=>$this->id,'codelemento'=>$this->codelemento,'elemento'=>$this->elemento,'stock'=>$this->stock,'horauso'=>$this->horauso,'categoria'=>$this->categoria,'estado'=>$this->estado];
+        return ['id'=>$this->id,'laboratorio_id'=>$this->laboratorio_id,'codelemento'=>$this->codelemento,'elemento'=>$this->elemento,'stock'=>$this->stock,'horauso'=>$this->horauso,'categoria'=>$this->categoria,'estado'=>$this->estado];
     }
 }

@@ -11,7 +11,7 @@ import TodoContextProvider from './TodoContext';
 import EstSnackBar from './EstSnackBar';
 import Laboratorios from './Laboratorios';
 import NuevoLaboratorio from './NuevoLaboratorio';
-import DetallesLaboratorio from './DetallesLaboratorio';
+import EditarLaboratorio from './EditarLaboratorio';
 
 function TabLaboratorio(props) {
 	const { children, value, index, ...other } = props;
@@ -74,7 +74,6 @@ export default function SimpleTabs(onchangeTab) {
 		setValue(index);
 		setData(data);
 	};
-
 	return (
 		<Fragment>
 			<Container className={classes.container} component="main" maxWidth="lg" justify="center">
@@ -83,7 +82,7 @@ export default function SimpleTabs(onchangeTab) {
 						<Tabs value={value} onChange={handleChange} indicatorColor="primary" textColor="primary">
 							<Tab label="Laboratorios" {...a11yProps(0)} />
 							<Tab label="Nuevo Laboratorio" {...a11yProps(1)} />
-							<Tab label="Detalles Laboratorio" {...a11yProps(2)} disabled/>
+							<Tab label="Editar Laboratorio" {...a11yProps(2)} disabled />
 						</Tabs>
 						<SwipeableViews
 							axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -104,7 +103,7 @@ export default function SimpleTabs(onchangeTab) {
 							</TabLaboratorio>
 							<TabLaboratorio value={value} index={2}>
 								<TodoContextProvider>
-									<DetallesLaboratorio data={data} />
+									<EditarLaboratorio data={data} />
 								</TodoContextProvider>
 							</TabLaboratorio>
 						</SwipeableViews>

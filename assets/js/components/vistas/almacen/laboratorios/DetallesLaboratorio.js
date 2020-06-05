@@ -28,25 +28,24 @@ const style = {
 };
 
 function DetallesLaboratorio(data) {
+	console.log(data);
 	const context = useContext(TodoContext);
-	const [ editId, seteditId ] = useState(data['data'].id);
-	const [ editCodigo, seteditCodigo ] = useState(data['data'].codlaboratorio);
-	const [ editNombre, seteditNombre ] = useState(data['data'].nombre);
-	const [ editUbicacion, seteditUbicacion ] = useState(data['data'].ubicacion);
-	const [ editObservacion, seteditObservacion ] = useState(data['data'].observacion);
 	const [ editUsuario, seteditUsuario ] = useState('');
-	//const [ editUsuario, seteditUsuario ] = useState(data['data'].codusuario + '-' + data['data'].usuario);
-	//const user = data['data'].codusuario + '-' + data['data'].usuario;
+	const [ editCodigo, seteditCodigo ] = useState('');
+	const [ editNombre, seteditNombre ] = useState('');
+	const [ editUbicacion, seteditUbicacion ] = useState('');
+	const [ editObservacion, seteditObservacion ] = useState('');
+	const [ clear, setClear ] = useState(false);
 
-	const onEditSubmit = (editId, event) => {
+	const onEditSubmit = (todoId, event) => {
 		event.preventDefault();
 		context.updateTodo({
-			id: editId,
+			id: todoId,
+			usuario_id: editUsuario,
 			codlaboratorio: editCodigo,
 			nombre: editNombre,
 			ubicacion: editUbicacion,
-			observacion: editObservacion,
-			usuario_id: editUsuario
+			observacion: editObservacion
 		});
 	};
 
@@ -62,7 +61,7 @@ function DetallesLaboratorio(data) {
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={editCodigo}
+								value={data['data'].codlaboratorio}
 								onChange={(event) => {
 									seteditCodigo(event.target.value);
 								}}
@@ -73,7 +72,7 @@ function DetallesLaboratorio(data) {
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={editNombre}
+								value={data['data'].nombre}
 								onChange={(event) => {
 									seteditNombre(event.target.value);
 								}}
@@ -84,7 +83,7 @@ function DetallesLaboratorio(data) {
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={editUbicacion}
+								value={data['data'].ubicacion}
 								onChange={(event) => {
 									seteditUbicacion(event.target.value);
 								}}
@@ -95,7 +94,7 @@ function DetallesLaboratorio(data) {
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={editObservacion}
+								value={data['data'].observacion}
 								onChange={(event) => {
 									seteditObservacion(event.target.value);
 								}}
@@ -105,12 +104,13 @@ function DetallesLaboratorio(data) {
 						</Grid>
 						<Grid item md={6} xs={6}>
 							<Autocomplete
+								id="combo-box-demo"
 								options={context.usu}
 								onChange={(e, a) => {
 									seteditUsuario(a !== null ? a.id : '');
 								}}
-								getOptionLabel={(option) => option.codusuario + '-' + option.usuario}
-								renderInput={(params) => <TextField {...params} label="Laboratorio" />}
+								getOptionLabel={(option) => option.codusuario + ' - ' + option.nombre}
+								renderInput={(params) => <TextField {...params} label="Encargado" />}
 							/>
 						</Grid>
 						<Grid item xs={6} md={2}>
@@ -120,7 +120,7 @@ function DetallesLaboratorio(data) {
 								size="medium"
 								color="primary"
 								style={style.submit}
-								onClick={onEditSubmit.bind(this, data['data'].id)}
+								onClick={onEditSubmit}
 							>
 								Guardar
 							</Button>

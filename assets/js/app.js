@@ -22,7 +22,7 @@ import NuevoMantenimiento from './components/vistas/bitacora/mantenimientos/Nuev
 //import Trabajos from "./components/vistas/bitacora/trabajos/Trabajos";
 //import Trabajo from './components/vistas/bitacora/trabajos/Trabajo';
 //import Contexts from './components/contexts/Contexts';
-import TabPanel from './components/vistas/bitacora/prestamos/TabPanel';
+import TabPrestamo from './components/vistas/bitacora/prestamos/TabPrestamo';
 import TabEstudiante from './components/seguridad/personas/estudiantes/TabEstudiante';
 import TabUsuario from './components/seguridad/usuarios/TabUsuario';
 import TabElemento from './components/vistas/almacen/elementos/TabElemento';
@@ -37,7 +37,7 @@ function App(props) {
 				<Grid container>
 					<Switch>
 						<Route path="/elementos" exact component={TabElemento} />
-						<Route path="/Prestamos" exact component={TabPanel} />
+						<Route path="/Prestamos" exact component={TabPrestamo} />
 						<Route path="/auth/login" exact component={Login} />
 						<Route path="/auth/perfil" exact component={PerfilUsuario} />
 						<Route path="/usuarios" exact component={TabUsuario} />

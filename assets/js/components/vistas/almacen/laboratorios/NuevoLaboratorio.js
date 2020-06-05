@@ -29,6 +29,7 @@ const style = {
 
 function NuevoLaboratorio() {
 	const context = useContext(TodoContext);
+	let user = [];
 	const [ addUsuario_id, setaddUsuario_id ] = useState('');
 	const [ addCodLaboratorio, setaddCodLaboratorio ] = useState('');
 	const [ addNombre, setaddNombre ] = useState('');
@@ -50,7 +51,14 @@ function NuevoLaboratorio() {
 		setaddNombre('');
 		setaddUbicacion('');
 		setaddObservacion('');
+		
 	};
+
+	context.usu.map((res) => {
+		if (res.tipousuario === "Laboratorista") {
+			user.push(res);
+		}
+	});
 
 	function historyBack() {
 		window.history.back();
@@ -108,12 +116,12 @@ function NuevoLaboratorio() {
 						<Grid item md={6} xs={6}>
 							<Autocomplete
 								id="combo-box-demo"
-								options={context.usu}
+								options={user}
 								onChange={(e, a) => {
 									setaddUsuario_id(a !== null ? a.id : '');
 								}}
 								getOptionLabel={(option) => option.codusuario + ' - ' + option.nombre}
-								renderInput={(params) => <TextField {...params} label="Encargado" />}
+								renderInput={(params) => <TextField {...params} label="Laboratorista" />}
 							/>
 						</Grid>
 						<Grid item xs={6} md={2}>

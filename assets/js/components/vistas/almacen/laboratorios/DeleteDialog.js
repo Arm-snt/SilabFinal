@@ -13,14 +13,14 @@ function DeleteDialog(props) {
 	return (
 		<Dialog onClose={hide} fullWidth={true} maxWidth="sm" open={props.open}>
 			<DialogTitle>¿Dese eliminar este registro?</DialogTitle>
-			<DialogContent>{props.todo.nombre}</DialogContent>
+			<DialogContent>{props.todo.elemento}</DialogContent>
 			<DialogActions>
 				<Button onClick={hide}>Cancelar</Button>
 				<Button
 					onClick={() => {
 						context.deleteTodo({
 							id: props.todo.id,
-							nombre: props.todo.nombre
+							nombre: props.todo.elemento
 						});
 						hide();
 					}}

@@ -64,100 +64,83 @@ class LaboratorioController extends AbstractController
                  ]);
     }
 
-    /**
+    
+      /**
      * @Route("/update/{id}", name="api_laboratorio_update", methods={"PUT"})
      * @param Request $request
-     * @param Laboratorio $todo
      * @return JsonResponse
      */
-    public function update(Request $request, Laboratorio $todo)
+    public function update(Request $request)
     {
         $content = json_decode($request->getContent());
-        
+
         $id=$content->id;
         $codlaboratorio=$content->codlaboratorio;
+        $usuario_id=$content->usuario_id;
         $nombre=$content->nombre;
         $ubicacion=$content->ubicacion;
         $observacion=$content->observacion;
-        $usuario_id=$content->usuario_id;
         
         $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
-        $todo = $this->laboratorioRepository->Buscar($id,$codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
+        $todo = $this->laboratorioRepository->Buscar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
         
-
         $codlaboratorio_bd=$todo['codlaboratorio'];
+        $usuario_id_bd=$todo['usuario_id'];
         $nombre_bd=$todo['nombre'];
         $ubicacion_bd=$todo['ubicacion'];
         $observacion_bd=$todo['observacion'];
-        $usuario_id_bd=$todo['usuario_id'];
 
-        if ($codlaboratorio===$codlaboratorio_bd && $nombre===$nombre_bd && $ubicacion===$ubicacion_bd && $observacion===$observacion_bd && $usuario_id===$usuario_id_bd) {
+        if ($codlaboratorio===$codlaboratorio_bd && $usuario_id===$usuario_id_bd && $nombre===$nombre_bd && $ubicacion===$ubicacion_bd && $observacion===$observacion_bd) {
             return $this->json([
-                'message' => ['text'=>['No se realizaron cambios al estudiante: '.$nombre_bd] , 'level'=>'warning']
+                'message' => ['text'=>['No se realizaron cambios al laboratorio: '.$nombre_bd] , 'level'=>'warning']
             ]);
         }
 
         try {
+            $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
+            $todo = $this->laboratorioRepository->Actualizar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
+            $todo = $this->laboratorioRepository->Buscar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
 
-            $todo = $this->laboratorioRepository->Actualizar($id,$codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
         } catch (Exception $exception) {
             return $this->json([ 
                 'message' => ['text'=>['No se pudo acceder a la Base de datos mientras se actualizaba el laboratorio!'] , 'level'=>'error']
                 ]);
         }
- 
         return $this->json([
-            'message' => ['text'=>['El laboratorio se ha actualizado!' ] , 'level'=>'success']      
+            'todo'    => $todo,
+            'message' => ['text'=>['El laboratorio se ha actualizado' ] , 'level'=>'success']      
         ]);
  
     }
 
     /**
      * @Route("/delete/{id}", name="api_laboratorio_delete", methods={"DELETE"})
-     * @param Laboratorio $todo
      * @param Request $request
      * @return JsonResponse
      */
-    public function delete(Request $request, Laboratorio $todo)
+    public function delete(Request $request)
     {
-        try {
-            $this->entityManager->remove($todo);
-            $this->entityManager->flush();
-        } catch (Exception $exception) {
-            return $this->json([ 
-                'message' => ['text'=>['No se pudo acceder a la Base de datos mientras se eliminaba el laboratorio!'] , 'level'=>'error']
-                ]);
-        }
- 
-        return $this->json([
-            'message' => ['text'=>['Se ha eliminado la informacion del laboratorio'] , 'level'=>'success']
-        ]);
- 
-    }
- 
-    
-    
-    public function delete2(Request $request, Laboratorio $todo)
-    {
-         function toArray(){
-            return ['id' => $this->id,'registro' => $this->registro, 'descripcion' => $this->descripcion];
-        }
 
-        $id[] = $todo->toArray();
-        dd($id);
+        $id='5';
         
         try {
             $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
-            $todo = $this->laboratorioRepository->Eliminar($id);    
+            $todo = $this->laboratorioRepository->Eliminar($id);
+           
         } catch (Exception $exception) {
             return $this->json([ 
                 'message' => ['text'=>['No se pudo acceder a la Base de datos mientras se eliminaba el laboratorio!'.$exception] , 'level'=>'error']
                 ]);
         }
+ 
         return $this->json([
             'message' => ['text'=>['Se ha eliminado la informacion del laboratorio'] , 'level'=>'success']
         ]);
  
     }
+ 
+    
+    
+    
   
 }

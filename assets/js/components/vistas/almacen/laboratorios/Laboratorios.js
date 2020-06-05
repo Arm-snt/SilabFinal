@@ -123,7 +123,9 @@ function Laboratorios(props) {
 										</TableCell>
 
 										<TableCell align="center">
-											<Typography>{todo.codlaboratorio}</Typography>
+											<Typography style={{ whiteSpace: 'pre-wrap' }}>
+												{todo.codlaboratorio}
+											</Typography>
 										</TableCell>
 										{/*UBICACIÓN*/}
 										<TableCell align="center">
