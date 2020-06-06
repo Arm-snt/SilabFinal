@@ -19,6 +19,33 @@ class ElementoRepository extends ServiceEntityRepository
         parent::__construct($registry, Elemento::class);
     }
 
+   
+    public function Buscar($id){
+        try {
+            $conn = $this->getEntityManager()->getConnection();
+            $stm = $conn->prepare(" SELECT ele.id, ele.laboratorio_id, ele.codelemento, ele.elemento, ele.stock, ele.horauso, ele.categoria, ele.estado
+            FROM elemento ele
+            WHERE ele.id=:ele");
+            $ele=$id;
+            if($stm->execute(array(':ele'=>$ele)))
+            $res = $stm->fetch();
+            return $res;
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+    
+    
+    public function Actualizar($id, $laboratorio_id, $codelemento, $elemento, $stock, $horauso, $categoria, $estado){
+        try {
+            $conn = $this->getEntityManager()->getConnection();
+            $stm = $conn->prepare(" UPDATE elemento SET  laboratorio_id=:laboratorio_id, codelemento=:codelemento, elemento=:elemento, stock=:stock, horauso=:horauso, categoria = :categoria, estado = :estado  WHERE elemento.id =:id");
+            if($stm->execute(array(':id'=>$id, ':laboratorio_id' =>$laboratorio_id, ':codelemento' =>$codelemento, ':elemento' =>$elemento, ':stock' =>$stock, ':horauso'=>$horauso,  ':categoria' =>$categoria, ':estado' =>$estado )));
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
     // /**
     //  * @return Elemento[] Returns an array of Elemento objects
     //  */

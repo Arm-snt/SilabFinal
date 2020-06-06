@@ -38,6 +38,7 @@ const style = {
 function EditarLaboratorio(data) {
 	const context = useContext(TodoContext);
 	let user = [];
+	let ele = [];
 	const [ editId, seteditId ] = useState(data['data'].id);
 	const [ editCodigo, seteditCodigo ] = useState(data['data'].codlaboratorio);
 	const [ editNombre, seteditNombre ] = useState(data['data'].nombre);
@@ -53,11 +54,17 @@ function EditarLaboratorio(data) {
 		}
 	});
 
+	context.ele.map((res) => {
+		if (res.estado === "Activo") {
+			ele.push(res);
+		}
+	});
+
 	const onEditSubmit = (editId, event) => {
 		event.preventDefault();
 		context.updateElemento({
-			id:editId,
-			codelemento:editElementop,
+			id:editElementop,
+			laboratorio_id:editId,
 		});
 	};
 
@@ -160,7 +167,7 @@ function EditarLaboratorio(data) {
 						</Grid>
 						<Grid item xs={6} md={6}>
 							<Autocomplete
-								options={context.ele}
+								options={ele}
 								onChange={(e, a) => {
 									seteditElemento(a !== null ? a.id : '');
 								}}

@@ -115,25 +115,27 @@ class TodoContextProvider extends Component {
 			});
 	}
 
-	updateElemento(data) {
 
-		data.codelemento.forEach(elemento => {
-			let informacion = [elemento,data.id]
+	updateElemento(data) {
+		data.id.forEach(elemento => {
+			let informacion = {
+				id:elemento,
+				laboratorio_id:data.laboratorio_id,
+				codelemento:'',
+				elemento:'',
+				stock:'',
+				horauso:'',
+				categoria:'',
+				estado:'',
+			}
 			axios
 			.put('api/elemento/update/' + elemento, informacion)
 			.then((response) => {
 				if(response.data.message.level === 'success'){
 					let todos = [ ...this.state.todos ];
 					let todo = todos.find((todo) => {
-						return todo.id === data.id;
+						return todo.id === elemento;
 					});
-					todo.codelemento = response.data.todo.codelemento;
-					todo.elemento = response.data.todo.elemento;
-					todo.stock = response.data.todo.stock;
-					todo.horauso = response.data.todo.horauso;
-					todo.categoria = response.data.todo.categoria;
-					todo.estado = response.data.todo.estado;
-	
 					this.setState({
 						todos: todos,
 						message: response.data.message,
