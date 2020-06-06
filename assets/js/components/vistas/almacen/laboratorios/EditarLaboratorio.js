@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Container, Divider, Paper, Grid, TextField, Button } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { TodoContext } from './TodoContext';
+import { Save, Send, Cancel } from '@material-ui/icons';
 import TablaElementos from './TablaElementos';
 
 const style = {
@@ -34,7 +35,6 @@ const style = {
 	}
 };
 
-
 function EditarLaboratorio(data) {
 	const context = useContext(TodoContext);
 	let user = [];
@@ -49,26 +49,37 @@ function EditarLaboratorio(data) {
 	const [ editElementop, seteditElementop ] = useState([]);
 
 	context.usu.map((res) => {
-		if (res.tipousuario === "Laboratorista") {
+		if (res.tipousuario === 'Laboratorista') {
 			user.push(res);
 		}
 	});
 
 	context.ele.map((res) => {
-		if (res.estado === "Activo") {
+		if (res.estado === 'Activo' && res.laboratorio_id != editId) {
 			ele.push(res);
 		}
 	});
 
 	const onEditSubmit = (editId, event) => {
 		event.preventDefault();
-		context.updateElemento({
-			id:editElementop,
-			laboratorio_id:editId,
+		context.updateTodo({
+			id: editId,
+			codlaboratorio: editCodigo,
+			nombre: editNombre,
+			ubicacion: editUbicacion,
+			observacion: editObservacion,
+			usuario_id: editUsuario
 		});
+		if(editElementop.length){
+			context.updateElemento({
+				id: editElementop,
+				laboratorio_id: editId
+			});
+		}
+
 	};
 
-	function cargar(){
+	function cargar() {
 		editElementop.push(editElemento);
 		seteditElemento('');
 	}
@@ -144,6 +155,7 @@ function EditarLaboratorio(data) {
 								size="small"
 								color="primary"
 								style={style.submit}
+								endIcon={<Save />}
 							>
 								Guardar
 							</Button>
@@ -156,6 +168,7 @@ function EditarLaboratorio(data) {
 								color="secondary"
 								style={style.submit}
 								onClick={historyBack}
+								startIcon={<Cancel />}
 							>
 								Cancelar
 							</Button>
@@ -182,6 +195,7 @@ function EditarLaboratorio(data) {
 								size="small"
 								color="primary"
 								style={style.submit}
+								endIcon={<Send />}
 								onClick={() => {
 									cargar();
 								}}

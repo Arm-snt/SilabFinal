@@ -64,36 +64,14 @@ const style = {
 	}
 };
 
-function Elementos() {
+function Elementos(props) {
+	const onChangeIndex = props.onChangeIndex;
+	let laboratorio = "";
 	const context = useContext(TodoContext);
-	console.log(context.lab);
-	const [ editarVisible, setEditarVisible ] = useState(false);
-	const [ editarCodElemento, setEditarCodElemento ] = useState('');
-	const [ editarLaboratorioid, setEditarLaboratorioid ] = useState('');
-	const [ editarElemento, setEditarElemento ] = useState('');
-	const [ editarStock, setEditarStock ] = useState('');
-	const [ editarHoraUso, setEditarHoraUso ] = useState('');
-	const [ editarCategoria, setEditarCategoria ] = useState('');
-	const [ editarEstado, setEditarEstado ] = useState('');
 	const [ eliminarVisible, setEliminarVisible ] = useState(false);
 	const [ todoEliminar, setTodoEliminar ] = useState(null);
 	const [ page, setPage ] = React.useState(0);
 	const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
-
-	const onEditSubmit = (todoId, event) => {
-		event.preventDefault();
-		context.updateTodo({
-			id: todoId,
-			codelemento: editarCodElemento,
-			elemento: editarElemento,
-			laboratorio_id: editarLaboratorioid,
-			stock: editarStock,
-			horauso: editarHoraUso,
-			categoria: editarCategoria,
-			estado: editarEstado
-		});
-		setEditarVisible(false);
-	};
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -154,183 +132,61 @@ function Elementos() {
 									<TableRow key={'todo ' + index}>
 										{/*codigo elemento*/}
 										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarCodElemento}
-														onChange={(event) => {
-															setEditarCodElemento(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.codelemento}</Typography>
-											)}
+											<Typography>{todo.codelemento}</Typography>
 										</TableCell>
 										{/*nombre elemento*/}
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarElemento}
-														onChange={(event) => {
-															setEditarElemento(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.elemento}</Typography>
-											)}
-										</TableCell>
-
 										<TableCell align="center">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<Autocomplete
-														options={context.lab}
-														onChange={(e, a) => {
-															setEditTodo(a !== null ? a.id : '');
-														}}
-														getOptionLabel={(option) =>
-															option.codlaboratorio + ' - ' + option.nombre}
-														renderInput={(params) => (
-															<TextField {...params} label="Laboratorio" />
-														)}
-													/>
-												</form>
-											) : (
-												<Typography style={{ whiteSpace: 'pre-wrap' }}>
-													{todo.codlaboratorio + ' - ' + todo.nombre}
-												</Typography>
-											)}
+											<Typography>{todo.elemento}</Typography>
+										</TableCell>
+										{/*nombre labaratorio*/}
+										<TableCell align="center">
+											<Typography style={{ whiteSpace: 'pre-wrap' }}>
+												{context.lab.map((res) => {
+													if (res.id == todo.laboratorio_id) {
+														laboratorio = res.codlaboratorio + "-" +res.nombre 
+													}
+												})}
+												{laboratorio}
+											</Typography>
 										</TableCell>
 										{/*stock elemento*/}
 										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarStock}
-														onChange={(event) => {
-															setEditarStock(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.stock}</Typography>
-											)}
+											<Typography>{todo.stock}</Typography>
 										</TableCell>
 										{/*hora de uso*/}
 										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarHoraUso}
-														onChange={(event) => {
-															setEditarHoraUso(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.horauso}</Typography>
-											)}
+											<Typography>{todo.horauso}</Typography>
 										</TableCell>
 										{/* categoria */}
 										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<Autocomplete
-														options={categoria}
-														onChange={(e, a) => {
-															setEditarCategoria(a !== null ? a.state : '');
-														}}
-														getOptionLabel={(option) => option.state}
-														renderInput={(params) => (
-															<TextField {...params} label="Categoria" />
-														)}
-													/>
-												</form>
-											) : (
-												<Typography style={{ whiteSpace: 'pre-wrap' }}>
-													{todo.categoria}
-												</Typography>
-											)}
+											<Typography style={{ whiteSpace: 'pre-wrap' }}>{todo.categoria}</Typography>
 										</TableCell>
 										{/* estado */}
 										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<Autocomplete
-														options={estado}
-														onChange={(e, a) => {
-															setEditarEstado(a !== null ? a.state : '');
-														}}
-														getOptionLabel={(option) => option.state}
-														renderInput={(params) => (
-															<TextField {...params} label="Estado" />
-														)}
-													/>
-												</form>
-											) : (
-												<Typography style={{ whiteSpace: 'pre-wrap' }}>
-													{todo.estado}
-												</Typography>
-											)}
+											<Typography style={{ whiteSpace: 'pre-wrap' }}>{todo.estado}</Typography>
 										</TableCell>
 										{/* opciones */}
 										<TableCell align="right">
-											{editarVisible === todo.id ? (
-												<Fragment>
-													<IconButton onClick={onEditSubmit.bind(this, todo.id)}>
-														<DoneIcon />
-													</IconButton>
-													<IconButton onClick={() => setEditarVisible(false)}>
-														<CloseIcon />
-													</IconButton>
-												</Fragment>
-											) : (
-												<Fragment>
-													<IconButton>
-														<Icon
-															path={mdiCircleEditOutline}
-															size={1}
-															color="red"
-															onClick={() => {
-																setEditarVisible(todo.id);
-																setEditarCodElemento(todo.codelemento);
-																setEditarElemento(todo.elemento);
-																setEditarLaboratorioid(todo.laboratorio_id);
-																setEditarStock(todo.stock);
-																setEditarHoraUso(todo.horauso);
-																setEditarCategoria(todo.categoria);
-																setEditarEstado(todo.estado);
-															}}
-														/>
-													</IconButton>
-													<IconButton
-														color="primary"
-														aria-label="upload picture"
-														component="span"
-														onClick={() => {
-															setEliminarVisible(true);
-															setTodoEliminar(todo);
-														}}
-													>
-														<CancelRounded fontSize="inherit" />
-													</IconButton>
-												</Fragment>
-											)}
+											<Fragment>
+												<IconButton
+													onClick={(e) => {
+														onChangeIndex(2, todo, e);
+													}}
+												>
+													<Icon path={mdiCircleEditOutline} size={1} color="red" />
+												</IconButton>
+												<IconButton
+													color="primary"
+													aria-label="upload picture"
+													component="span"
+													onClick={() => {
+														setEliminarVisible(true);
+														setTodoEliminar(todo);
+													}}
+												>
+													<CancelRounded fontSize="inherit" />
+												</IconButton>
+											</Fragment>
 										</TableCell>
 									</TableRow>
 								))}

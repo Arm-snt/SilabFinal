@@ -78,8 +78,8 @@ class TodoContextProvider extends Component {
 					let todo = todos.find((todo) => {
 						return todo.id === data.id;
 					});
-					todo.laboratorio_id = response.data.todo.laboratorio_id;
 					todo.codelemento = response.data.todo.codelemento;
+					todo.laboratorio_id = response.data.todo.laboratorio_id;
 					todo.elemento = response.data.todo.elemento;
 					todo.stock = response.data.todo.stock;
 					todo.horauso = response.data.todo.horauso;

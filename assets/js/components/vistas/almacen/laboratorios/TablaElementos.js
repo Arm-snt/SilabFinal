@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect, Fragment } from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination, ExpansionPanelActions } from '@material-ui/core';
 import { Container, Paper, Grid, Link, Typography, IconButton, Button } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import Icon from '@mdi/react';
-import { mdiCircleEditOutline } from '@mdi/js';
-import { CancelRounded } from '@material-ui/icons';
+import { mdiCircleEditOutline, mdiLocationEnter } from '@mdi/js';
+import { Delete, VolumeMuteOutlined } from '@material-ui/icons';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import { TodoContext } from './TodoContext';
@@ -113,6 +113,9 @@ function TablaElementos({ data, elemento }) {
 									Elementos
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
+									Stock
+								</TableCell>
+								<TableCell style={style.tableCell} align="center">
 									Acciones
 								</TableCell>
 							</TableRow>
@@ -130,7 +133,12 @@ function TablaElementos({ data, elemento }) {
 													{todo.codelemento + ' - ' + todo.elemento}
 												</Typography>
 											</TableCell>
-											<TableCell align="right">
+											<TableCell align="center">
+												<Typography style={{ whiteSpace: 'pre-wrap' }}>
+													{todo.stock}
+												</Typography>
+											</TableCell>
+											<TableCell align="center">
 												<Fragment>
 													<IconButton
 														color="primary"
@@ -141,7 +149,7 @@ function TablaElementos({ data, elemento }) {
 															setTodoToBeDeleted(todo);
 														}}
 													>
-														<CancelRounded fontSize="inherit" />
+														<Delete fontSize="inherit" />
 													</IconButton>
 												</Fragment>
 											</TableCell>

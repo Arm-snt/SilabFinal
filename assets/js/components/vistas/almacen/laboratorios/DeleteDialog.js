@@ -12,7 +12,7 @@ function DeleteDialog(props) {
 
 	return (
 		<Dialog onClose={hide} fullWidth={true} maxWidth="sm" open={props.open}>
-			<DialogTitle>¿Dese eliminar este registro?</DialogTitle>
+			<DialogTitle>¿Desea eliminar este registro?</DialogTitle>
 			<DialogContent>{props.todo.elemento}</DialogContent>
 			<DialogActions>
 				<Button onClick={hide}>Cancelar</Button>

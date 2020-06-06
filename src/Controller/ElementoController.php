@@ -85,6 +85,7 @@ class ElementoController extends AbstractController
     {
         $content = json_decode($request->getContent());
 
+
         $id=$content->id;
         $laboratorio_id=$content->laboratorio_id;
         $codelemento=$content->codelemento;
@@ -96,7 +97,6 @@ class ElementoController extends AbstractController
         
         $todo = $this->getDoctrine()->getRepository(Elemento::class, 'default');
         $todo = $this->elementoRepository->Buscar($id);
-        
         $codelemento_bd=$todo['codelemento'];
         $laboratorio_id_bd=$todo['laboratorio_id'];
         $elemento_bd=$todo['elemento'];
@@ -104,10 +104,10 @@ class ElementoController extends AbstractController
         $horauso_bd=$todo['horauso'];
         $categoria_bd=$todo['categoria'];
         $estado_bd=$todo['estado'];
-
-        if ($codelemento===$codelemento_bd && $laboratorio_id===$laboratorio_id_bd && $elemento===$elemento_bd && $stock===$stock_bd && $horauso===$horauso_bd && $categoria===$categoria_bd && $estado===$estado_bd) {
+        
+        if ($codelemento==$codelemento_bd && $laboratorio_id==$laboratorio_id_bd && $elemento==$elemento_bd && $stock==$stock_bd && $horauso==$horauso_bd && $categoria==$categoria_bd && $estado==$estado_bd) {
             return $this->json([
-                'message' => ['text'=>['No se realizaron cambios al elemento: '.$elemento_bd] , 'level'=>'warning']
+                'message' => ['text'=>['No se realizaron cambios al elemento '] , 'level'=>'warning']
             ]);
         }
 
