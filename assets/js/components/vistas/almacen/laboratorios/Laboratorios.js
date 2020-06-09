@@ -1,12 +1,8 @@
 import React, { useContext, useState, Fragment } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination } from '@material-ui/core';
-import { Container, Paper, Grid, Link, Typography, IconButton, Button } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import { Container, Paper,Typography, IconButton } from '@material-ui/core';
 import Icon from '@mdi/react';
-import { mdiCircleEditOutline } from '@mdi/js';
-import { CancelRounded } from '@material-ui/icons';
-import DoneIcon from '@material-ui/icons/Done';
-import CloseIcon from '@material-ui/icons/Close';
+import { mdiFileDocumentEdit, mdiEyeCheck, mdiFileCancel } from '@mdi/js';
 import { TodoContext } from './TodoContext';
 import DeleteDialog from './DeleteDialog';
 
@@ -144,25 +140,26 @@ function Laboratorios(props) {
 												{todo.codusuario + ' - ' + todo.usuario}
 											</Typography>
 										</TableCell>
-										<TableCell align="right">
+										<TableCell align="center">
 											<Fragment>
 												<IconButton
 													onClick={(e) => {
 														onChangeIndex(2, todo, e);
-													}}
-												>
-													<Icon path={mdiCircleEditOutline} size={1} color="red" />
+													}}>
+													<Icon path={mdiFileDocumentEdit} size={1} color="red" />
 												</IconButton>
 												<IconButton
-													color="primary"
-													aria-label="upload picture"
-													component="span"
+													onClick={(e) => {
+														onChangeIndex(3, todo, e);
+													}}>
+													<Icon path={mdiEyeCheck} size={1} color="red" />
+												</IconButton>
+												<IconButton
 													onClick={() => {
 														setDeleteConfirmationIsShown(true);
 														setTodoToBeDeleted(todo);
-													}}
-												>
-													<CancelRounded fontSize="inherit" />
+													}}>
+													<Icon path={mdiFileCancel} size={1} color="red" />
 												</IconButton>
 											</Fragment>
 										</TableCell>

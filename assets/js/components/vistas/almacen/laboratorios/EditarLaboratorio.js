@@ -147,7 +147,7 @@ function EditarLaboratorio(data) {
 								renderInput={(params) => <TextField {...params} label="Laboratorista" />}
 							/>
 						</Grid>
-						<Grid item xs={6} md={2}>
+						<Grid item xs={3} md={2}>
 							<Button
 								type="submit"
 								variant="contained"
@@ -160,7 +160,7 @@ function EditarLaboratorio(data) {
 								Guardar
 							</Button>
 						</Grid>
-						<Grid item xs={2} md={2}>
+						<Grid item xs={3} md={2}>
 							<Button
 								variant="contained"
 								fullWidth
@@ -188,7 +188,7 @@ function EditarLaboratorio(data) {
 								renderInput={(params) => <TextField {...params} label="Cargar Elementos" />}
 							/>
 						</Grid>
-						<Grid item xs={6} md={2}>
+						<Grid item xs={3} md={2}>
 							<Button
 								variant="contained"
 								fullWidth

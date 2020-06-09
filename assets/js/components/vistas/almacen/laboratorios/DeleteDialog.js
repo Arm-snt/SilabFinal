@@ -18,9 +18,15 @@ function DeleteDialog(props) {
 				<Button onClick={hide}>Cancelar</Button>
 				<Button
 					onClick={() => {
-						context.deleteTodo({
+						context.updateElemento({
 							id: props.todo.id,
-							nombre: props.todo.elemento
+							laboratorio_id: null,
+							elemento: props.todo.elemento,
+							codelemento:props.todo.codelemento,
+							stock:props.todo.stock,
+							horauso:props.todo.horauso,
+							categoria:props.todo.categoria,
+							estado:props.todo.estado,
 						});
 						hide();
 					}}

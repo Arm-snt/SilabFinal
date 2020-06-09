@@ -29,27 +29,23 @@ const style = {
 
 function NuevoPrestamo() {
 	const context = useContext(TodoContext);
-	const [ addAsignatura, setaddAsignatura ] = useState('');
-	const [ addCodLaboratorio, setaddCodLaboratorio ] = useState('');
-	const [ addNombre, setaddNombre ] = useState('');
-	const [ addUbicacion, setaddUbicacion ] = useState('');
-	const [ addObservacion, setaddObservacion ] = useState('');
-	const [ clear, setClear ] = useState(false);
+	const [ carrera, setcarrera ] = useState('');
+	const [ estudiante_id, setestudiante_id ] = useState('');
+	const [ registro, setregistro ] = useState('');
+	const [ observacion, setobservacion ] = useState('');
 
 	const onCreateSubmit = (event) => {
 		event.preventDefault();
 		context.createTodo(event, {
-			asignatura: addAsignatura,
-			codlaboratorio: addCodLaboratorio,
-			nombre: addNombre,
-			ubicacion: addUbicacion,
-			observacion: addObservacion
+			carrera: carrera,
+			estudiante_id: estudiante_id,
+			registro: registro,
+			observacion: observacion
 		});
-		setaddAsignatura('');
-		setaddCodLaboratorio('');
-		setaddNombre('');
-		setaddUbicacion('');
-		setaddObservacion('');
+		setcarrera('');
+		setestudiante_id('');
+		setregistro('');
+		setobservacion('');
 		
 	};
 

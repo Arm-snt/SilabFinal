@@ -1,5 +1,14 @@
 import React, { useContext, useState, useEffect, Fragment } from 'react';
-import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination, ExpansionPanelActions } from '@material-ui/core';
+import {
+	Table,
+	TableHead,
+	TableRow,
+	TableCell,
+	TableBody,
+	TableContainer,
+	TablePagination,
+	ExpansionPanelActions
+} from '@material-ui/core';
 import { Container, Paper, Grid, Link, Typography, IconButton, Button } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import Icon from '@mdi/react';
@@ -62,11 +71,11 @@ const style = {
 
 function TablaElementos({ data, elemento }) {
 	const context = useContext(TodoContext);
-	const elementoscarga = [...new Set(elemento)];
+	const elementoscarga = [ ...new Set(elemento) ];
 	let datosE = [];
 	let nuevosE = [];
 	const [ deleteConfirmationIsShown, setDeleteConfirmationIsShown ] = useState(false);
-	const [ todoToBeDeleted, setTodoToBeDeleted ] = useState(null);
+	const [ elementosDelete, setelementosDelete ] = useState([]);
 	const [ page, setPage ] = React.useState(0);
 	const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
@@ -76,17 +85,25 @@ function TablaElementos({ data, elemento }) {
 		}
 	});
 
-		context.ele.map((res) => {
-			elementoscarga.forEach((elementoscarga) => {
-				if (res.id == elementoscarga) {
-					nuevosE.push(res);
-				}
-			});
+	context.ele.map((res) => {
+		elementoscarga.forEach((elementoscarga) => {
+			if (res.id == elementoscarga) {
+				nuevosE.push(res);
+			}
 		});
+	});
 
-		for (var index = 0; index < nuevosE.length; index++) {
-			datosE.push(nuevosE[index]);
-		}
+	for (var index = 0; index < nuevosE.length; index++) {
+		datosE.push(nuevosE[index]);
+	}
+
+	function eliminar(elementosDelete) {
+		setDeleteConfirmationIsShown(true);
+	}
+	
+	useEffect(() => {
+		datosE.splice(datosE.indexOf(elementosDelete), 1);
+	}, [datosE])
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -123,7 +140,7 @@ function TablaElementos({ data, elemento }) {
 						{/*BODY*/}
 						<TableBody>
 							{datosE
-							.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.reverse()
 								.map((todo, index) => {
 									return (
@@ -134,9 +151,7 @@ function TablaElementos({ data, elemento }) {
 												</Typography>
 											</TableCell>
 											<TableCell align="center">
-												<Typography style={{ whiteSpace: 'pre-wrap' }}>
-													{todo.stock}
-												</Typography>
+												<Typography style={{ whiteSpace: 'pre-wrap' }}>{todo.stock}</Typography>
 											</TableCell>
 											<TableCell align="center">
 												<Fragment>
@@ -145,8 +160,8 @@ function TablaElementos({ data, elemento }) {
 														aria-label="upload picture"
 														component="span"
 														onClick={() => {
-															setDeleteConfirmationIsShown(true);
-															setTodoToBeDeleted(todo);
+															setelementosDelete(todo);
+															eliminar();
 														}}
 													>
 														<Delete fontSize="inherit" />
@@ -171,7 +186,7 @@ function TablaElementos({ data, elemento }) {
 			</Container>
 			{deleteConfirmationIsShown && (
 				<DeleteDialog
-					todo={todoToBeDeleted}
+					todo={elementosDelete}
 					open={deleteConfirmationIsShown}
 					setDeleteConfirmationIsShown={setDeleteConfirmationIsShown}
 				/>

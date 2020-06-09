@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { Container, Paper, Grid, TextField, Button } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import { Container, Paper, Divider, Grid, TextField, Button } from '@material-ui/core';
 import { TodoContext } from './TodoContext';
+import { Cancel } from '@material-ui/icons';
+import TablaElementos from './TablaElementos';
 
 const style = {
 	container: {
@@ -24,47 +25,48 @@ const style = {
 	},
 	space: {
 		paddingTop: '20px'
+	},
+	grid: {
+		marginBottom: 20,
+		backgroundColor: '#fff',
+		borderRadius: '5px'
 	}
 };
 
 function DetallesLaboratorio(data) {
-	console.log(data);
 	const context = useContext(TodoContext);
-	const [ editUsuario, seteditUsuario ] = useState('');
-	const [ editCodigo, seteditCodigo ] = useState('');
-	const [ editNombre, seteditNombre ] = useState('');
-	const [ editUbicacion, seteditUbicacion ] = useState('');
-	const [ editObservacion, seteditObservacion ] = useState('');
-	const [ clear, setClear ] = useState(false);
-
-	const onEditSubmit = (todoId, event) => {
-		event.preventDefault();
-		context.updateTodo({
-			id: todoId,
-			usuario_id: editUsuario,
-			codlaboratorio: editCodigo,
-			nombre: editNombre,
-			ubicacion: editUbicacion,
-			observacion: editObservacion
-		});
-	};
+	let user = [];
+	const [ editId, seteditId ] = useState(data['data'].id);
+	const [ editCodigo, seteditCodigo ] = useState(data['data'].codlaboratorio);
+	const [ editNombre, seteditNombre ] = useState(data['data'].nombre);
+	const [ editUbicacion, seteditUbicacion ] = useState(data['data'].ubicacion);
+	const [ editObservacion, seteditObservacion ] = useState(data['data'].observacion);
+	const [ editUsuario, seteditUsuario ] = useState(data['data'].usuario_id);
+	const [ editElementop, seteditElementop ] = useState([]);
 
 	function historyBack() {
 		window.history.back();
 	}
 
+	context.usu.map((res) => {
+		if (res.id == editUsuario) {
+			user=res;
+		}
+	});
+
 	return (
 		<Container style={style.container} component="main" maxWidth="lg" justify="center">
 			<Paper style={style.paper}>
 				<form style={style.form}>
-					<Grid container spacing={2}>
+					<Grid container spacing={2} style={style.grid}>
+						<Grid item md={12} xs={12}>
+							<Divider />
+						</Grid>
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={data['data'].codlaboratorio}
-								onChange={(event) => {
-									seteditCodigo(event.target.value);
-								}}
+								disabled
+								value={editCodigo}
 								fullWidth={true}
 								label="Código Laboratorio"
 							/>
@@ -72,10 +74,8 @@ function DetallesLaboratorio(data) {
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={data['data'].nombre}
-								onChange={(event) => {
-									seteditNombre(event.target.value);
-								}}
+								disabled
+								value={editNombre}
 								fullWidth={true}
 								label="Nombre Laboratorio"
 							/>
@@ -83,10 +83,8 @@ function DetallesLaboratorio(data) {
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={data['data'].ubicacion}
-								onChange={(event) => {
-									seteditUbicacion(event.target.value);
-								}}
+								disabled
+								value={editUbicacion}
 								fullWidth={true}
 								label="Ubicación Laboratorio"
 							/>
@@ -94,50 +92,39 @@ function DetallesLaboratorio(data) {
 						<Grid item md={6} xs={6}>
 							<TextField
 								type="text"
-								value={data['data'].observacion}
-								onChange={(event) => {
-									seteditObservacion(event.target.value);
-								}}
+								disabled
+								value={editObservacion}
 								fullWidth={true}
 								label="Observación"
 							/>
 						</Grid>
 						<Grid item md={6} xs={6}>
-							<Autocomplete
-								id="combo-box-demo"
-								options={context.usu}
-								onChange={(e, a) => {
-									seteditUsuario(a !== null ? a.id : '');
-								}}
-								getOptionLabel={(option) => option.codusuario + ' - ' + option.nombre}
-								renderInput={(params) => <TextField {...params} label="Encargado" />}
+							<TextField
+								type="text"
+								disabled
+								value={user.codusuario + ' - ' + user.nombre}
+								fullWidth={true}
+								label="Laboratorista"
 							/>
 						</Grid>
-						<Grid item xs={6} md={2}>
+						<Grid item xs={3} md={2}>
 							<Button
 								variant="contained"
 								fullWidth
-								size="medium"
+								size="small"
 								color="primary"
 								style={style.submit}
-								onClick={onEditSubmit}
-							>
-								Guardar
-							</Button>
-						</Grid>
-						<Grid item xs={2} md={2}>
-							<Button
-								variant="contained"
-								fullWidth
-								size="medium"
-								color="secondary"
-								style={style.submit}
 								onClick={historyBack}
+								startIcon={<Cancel />}
 							>
-								Cancelar
+								Volver
 							</Button>
 						</Grid>
 					</Grid>
+					<Grid item md={12} xs={12}>
+						<Divider />
+					</Grid>
+					<TablaElementos data={editId} elemento={editElementop} />
 				</form>
 			</Paper>
 		</Container>

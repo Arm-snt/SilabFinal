@@ -84,8 +84,6 @@ class ElementoController extends AbstractController
     public function update(Request $request)
     {
         $content = json_decode($request->getContent());
-
-
         $id=$content->id;
         $laboratorio_id=$content->laboratorio_id;
         $codelemento=$content->codelemento;
@@ -108,25 +106,26 @@ class ElementoController extends AbstractController
         if ($codelemento==$codelemento_bd && $laboratorio_id==$laboratorio_id_bd && $elemento==$elemento_bd && $stock==$stock_bd && $horauso==$horauso_bd && $categoria==$categoria_bd && $estado==$estado_bd) {
             return $this->json([
                 'message' => ['text'=>['No se realizaron cambios al elemento '] , 'level'=>'warning']
-            ]);
-        }
-
-        try {
-            if($codelemento === '' && $elemento === '' && $stock === '' && $horauso === '' && $categoria === '' && $estado === ''){
-                $codelemento=$codelemento_bd;
-                $elemento=$elemento_bd;
-                $stock=$stock_bd;
-                $horauso=$horauso_bd;
-                $categoria=$categoria_bd;
-                $estado=$estado_bd;
+                ]);
             }
-            $todo = $this->getDoctrine()->getRepository(Elemento::class, 'default');
-            $todo = $this->elementoRepository->Actualizar($id, $laboratorio_id, $codelemento, $elemento, $stock, $horauso, $categoria, $estado);
-            $todo = $this->elementoRepository->Buscar($id);
+            
+            try {
+                if($codelemento === '' && $elemento === '' && $stock === '' && $horauso === '' && $categoria === '' && $estado === ''){
+                    $codelemento=$codelemento_bd;
+                    $elemento=$elemento_bd;
+                    $stock=$stock_bd;
+                    $horauso=$horauso_bd;
+                    $categoria=$categoria_bd;
+                    $estado=$estado_bd;
+                }
+                
+                $todo = $this->getDoctrine()->getRepository(Elemento::class, 'default');
+                $todo = $this->elementoRepository->Actualizar($id, $laboratorio_id, $codelemento, $elemento, $stock, $horauso, $categoria, $estado);
+                $todo = $this->elementoRepository->Buscar($id);
 
         } catch (Exception $exception) {
             return $this->json([ 
-                'message' => ['text'=>['No se pudo acceder a la Base de datos mientras se actualizaba el elemento!'] , 'level'=>'error']
+                'message' => ['text'=>['No se pudo acceder a la Base de datos mientras se actualizaba el elemento!'.$exception] , 'level'=>'error']
                 ]);
         }
         return $this->json([

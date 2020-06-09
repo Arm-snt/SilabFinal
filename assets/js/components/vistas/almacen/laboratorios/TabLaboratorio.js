@@ -12,6 +12,7 @@ import EstSnackBar from './EstSnackBar';
 import Laboratorios from './Laboratorios';
 import NuevoLaboratorio from './NuevoLaboratorio';
 import EditarLaboratorio from './EditarLaboratorio';
+import DetallesLaboratorio from './DetallesLaboratorio';
 
 function TabLaboratorio(props) {
 	const { children, value, index, ...other } = props;
@@ -83,6 +84,7 @@ export default function SimpleTabs(onchangeTab) {
 							<Tab label="Laboratorios" {...a11yProps(0)} />
 							<Tab label="Nuevo Laboratorio" {...a11yProps(1)} />
 							<Tab label="Editar Laboratorio" {...a11yProps(2)} disabled />
+							<Tab label="Detalles Laboratorio" {...a11yProps(3)} disabled />
 						</Tabs>
 						<SwipeableViews
 							axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -104,6 +106,12 @@ export default function SimpleTabs(onchangeTab) {
 							<TabLaboratorio value={value} index={2}>
 								<TodoContextProvider>
 									<EditarLaboratorio data={data} />
+									<EstSnackBar />
+								</TodoContextProvider>
+							</TabLaboratorio>
+							<TabLaboratorio value={value} index={3}>
+								<TodoContextProvider>
+									<DetallesLaboratorio data={data} />
 								</TodoContextProvider>
 							</TabLaboratorio>
 						</SwipeableViews>
