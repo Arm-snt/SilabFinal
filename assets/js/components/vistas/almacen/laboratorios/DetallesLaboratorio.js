@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Container, Paper, Divider, Grid, TextField, Button } from '@material-ui/core';
 import { TodoContext } from './TodoContext';
-import { Cancel } from '@material-ui/icons';
+import { Reply } from '@material-ui/icons';
 import TablaElementos from './TablaElementos';
 
 const style = {
@@ -115,14 +115,14 @@ function DetallesLaboratorio(data) {
 								color="primary"
 								style={style.submit}
 								onClick={historyBack}
-								startIcon={<Cancel />}
+								startIcon={<Reply />}
 							>
 								Volver
 							</Button>
 						</Grid>
-					</Grid>
-					<Grid item md={12} xs={12}>
-						<Divider />
+						<Grid item md={12} xs={12}>
+							<Divider />
+						</Grid>
 					</Grid>
 					<TablaElementos data={editId} elemento={editElementop} />
 				</form>

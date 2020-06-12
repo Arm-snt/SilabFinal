@@ -22,9 +22,9 @@ class LaboratorioRepository extends ServiceEntityRepository
     public function Mostrar(){
         try {
             $conn = $this->getEntityManager()->getConnection();
-            $stm = $conn->prepare("SELECT lab.id, lab.codlaboratorio, lab.nombre, lab.ubicacion, lab.usuario_id, lab.observacion, usu.codusuario, usu.usuario
+            $stm = $conn->prepare("SELECT lab.id, lab.codlaboratorio, lab.nombre, lab.ubicacion, lab.usuario_id, lab.observacion
             FROM laboratorio lab, usuario usu
-            WHERE lab.usuario_id=usu.id AND usu.tipousuario='Laboratorista' GROUP BY lab.id");
+            GROUP BY lab.id");
             $stm->execute([]);
             $res = $stm->fetchAll();
             return $res;
@@ -44,12 +44,12 @@ class LaboratorioRepository extends ServiceEntityRepository
     }
 
 
-    public function Buscar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion){
+    public function Buscar($id){
         try {
             $conn = $this->getEntityManager()->getConnection();
             $stm = $conn->prepare(" SELECT lab.codlaboratorio, lab.nombre, lab.ubicacion, lab.observacion, lab.usuario_id
-            FROM laboratorio lab, usuario usu
-            WHERE lab.id=:lab AND lab.usuario_id=usu.id");
+            FROM laboratorio lab
+            WHERE lab.id=:lab");
             $lab=$id;
             if($stm->execute(array(':lab'=>$lab)))
             $res = $stm->fetch();

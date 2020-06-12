@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, Fragment } from 'react';
-import {Table,TableHead,TableRow,TableCell,TableBody,TableContainer,TablePagination} from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination } from '@material-ui/core';
 import { Container, Paper, Typography, IconButton, Button } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import { TodoContext } from './TodoContext';
@@ -37,41 +37,34 @@ const style = {
 	}
 };
 
-function TablaElementos({ data, elemento }) {
+function TablaLaboratiorios({ data, laboratorio }) {
 	const context = useContext(TodoContext);
-	const elementoscarga = [ ...new Set(elemento) ];
-	let datosE = [];
-	let nuevosE = [];
-	const [ deleteConfirmationIsShown, setDeleteConfirmationIsShown ] = useState(false);
-	const [ elementosDelete, setelementosDelete ] = useState([]);
+	const laboratorioscarga = [ ...new Set(laboratorio) ];
+	let datosL = [];
+	let nuevosL = [];
+	const [ eliminarVisible, setEliminarVisible ] = useState(false);
+	const [ laboratoriosDelete, setlaboratoriosDelete ] = useState([]);
 	const [ page, setPage ] = React.useState(0);
 	const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
-	context.ele.map((res) => {
-		if (res.laboratorio_id == data) {
-			datosE.push(res);
+	context.lab.map((res) => {
+		//console.log(res.usuario_id)
+		if (res.usuario_id == data) {
+			datosL.push(res);
 		}
 	});
 
-	context.ele.map((res) => {
-		elementoscarga.forEach((elementoscarga) => {
-			if (res.id == elementoscarga) {
-				nuevosE.push(res);
+	context.lab.map((res) => {
+		laboratorioscarga.forEach((laboratorioscarga) => {
+			if (res.id == laboratorioscarga) {
+				nuevosL.push(res);
 			}
 		});
 	});
 
-	for (var index = 0; index < nuevosE.length; index++) {
-		datosE.push(nuevosE[index]);
+	for (var index = 0; index < nuevosL.length; index++) {
+		datosL.push(nuevosL[index]);
 	}
-
-	function eliminar(elementosDelete) {
-		setDeleteConfirmationIsShown(true);
-	}
-	
-	useEffect(() => {
-		datosE.splice(datosE.indexOf(elementosDelete), 1);
-	}, [datosE])
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -95,10 +88,13 @@ function TablaElementos({ data, elemento }) {
 						<TableHead style={style.tableHead}>
 							<TableRow>
 								<TableCell style={style.tableCell} align="center">
-									Elementos
+									Codigo
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
-									Stock
+									Laboratorio
+								</TableCell>
+								<TableCell style={style.tableCell} align="center">
+									Ubicación
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
 									Acciones
@@ -107,7 +103,7 @@ function TablaElementos({ data, elemento }) {
 						</TableHead>
 						{/*BODY*/}
 						<TableBody>
-							{datosE
+							{datosL
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.reverse()
 								.map((todo, index) => {
@@ -115,11 +111,18 @@ function TablaElementos({ data, elemento }) {
 										<TableRow key={'todo ' + index}>
 											<TableCell align="center">
 												<Typography style={{ whiteSpace: 'pre-wrap' }}>
-													{todo.codelemento + ' - ' + todo.elemento}
+													{todo.codlaboratorio}
 												</Typography>
 											</TableCell>
 											<TableCell align="center">
-												<Typography style={{ whiteSpace: 'pre-wrap' }}>{todo.stock}</Typography>
+												<Typography style={{ whiteSpace: 'pre-wrap' }}>
+													{todo.nombre}
+												</Typography>
+											</TableCell>
+											<TableCell align="center">
+												<Typography style={{ whiteSpace: 'pre-wrap' }}>
+													{todo.ubicacion}
+												</Typography>
 											</TableCell>
 											<TableCell align="center">
 												<Fragment>
@@ -128,8 +131,8 @@ function TablaElementos({ data, elemento }) {
 														aria-label="upload picture"
 														component="span"
 														onClick={() => {
-															setelementosDelete(todo);
-															eliminar();
+															setEliminarVisible(true);
+															setlaboratoriosDelete(todo);
 														}}
 													>
 														<Delete fontSize="inherit" />
@@ -145,22 +148,22 @@ function TablaElementos({ data, elemento }) {
 				<TablePagination
 					rowsPerPageOptions={[ 5, 10, 25 ]}
 					component="div"
-					count={datosE.length}
+					count={datosL.length}
 					rowsPerPage={rowsPerPage}
 					page={page}
 					onChangePage={handleChangePage}
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 			</Container>
-			{deleteConfirmationIsShown && (
+			{eliminarVisible && (
 				<DeleteDialog
-					todo={elementosDelete}
-					open={deleteConfirmationIsShown}
-					setDeleteConfirmationIsShown={setDeleteConfirmationIsShown}
+					todo={laboratoriosDelete}
+					open={eliminarVisible}
+					setEliminarVisible={setEliminarVisible}
 				/>
 			)}
 		</Fragment>
 	);
 }
 
-export default TablaElementos;
+export default TablaLaboratiorios;

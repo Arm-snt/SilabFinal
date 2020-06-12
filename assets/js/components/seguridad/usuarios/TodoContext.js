@@ -10,9 +10,11 @@ class TodoContextProvider extends Component{
 		super(props);
 		this.state = {
 			todos: [],
+			lab: [],
 			message: {},
 		};
 		this.readTodo();
+		this.readLaboratorio();
     }
     
     //Leer
@@ -27,8 +29,19 @@ class TodoContextProvider extends Component{
 			.catch((error) => {
 				console.error(error);
 			});
-    }
-    
+	}
+	readLaboratorio() {
+		axios
+			.get('api/laboratorio/read')
+			.then((response) => {
+				this.setState({
+					lab: response.data
+				});
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}    
     //Crear
     createTodo(event, todo) {
 		event.preventDefault();
@@ -86,7 +99,67 @@ class TodoContextProvider extends Component{
 			.catch((error) => {
 				console.error(error);
 			});
-    }
+	}
+	
+	updateLaboratorio(data) {
+		if(data.id.constructor === Array){
+			data.id.forEach(laboratorio => {
+				let informacion = {
+					id:laboratorio,
+					usuario_id:data.usuario_id,
+					codlaboratorio:'',
+					nombre:'',
+					ubicacion:'',
+					observacion:'',
+				}			
+				axios
+				.put('api/laboratorio/update/' + laboratorio, informacion)
+				.then((response) => {
+					if (response.data.message.level === 'success') {
+						let todos = [ ...this.state.todos ];
+						let todo = todos.find((todo) => {
+							return todo.id === data.id;
+						});
+						this.setState({
+							todos: todos,
+							message: response.data.message
+						});
+					} else {
+						this.setState({
+							message: response.data.message
+						});
+					}
+				})
+				.catch((error) => {
+					console.error(error);
+				});
+
+			});
+		} else {
+			axios
+			.put('api/laboratorio/update/' + data.id, data)
+			.then((response) => {
+				if (response.data.message.level === 'success') {
+					let todos = [ ...this.state.todos ];
+					let todo = todos.find((todo) => {
+						return todo.id === data.id;
+					});
+
+					this.setState({
+						todos: todos,
+						message: response.data.message
+					});
+				} else {
+					this.setState({
+						message: response.data.message
+					});
+				}
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+		}
+	}
     
     //Eliminar
     deleteTodo(data) {
@@ -124,6 +197,7 @@ class TodoContextProvider extends Component{
 					...this.state,
 					createTodo: this.createTodo.bind(this),
 					updateTodo: this.updateTodo.bind(this),
+					updateLaboratorio: this.updateLaboratorio.bind(this),
 					deleteTodo: this.deleteTodo.bind(this),
 					setMessage: (message)=>this.setState({message:message}),
 				}}

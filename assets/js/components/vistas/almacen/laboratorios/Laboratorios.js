@@ -111,7 +111,7 @@ function Laboratorios(props) {
 							{context.todos
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.reverse()
-								.map((todo, index) => (
+								.map((todo, index) => (									
 									<TableRow key={'todo ' + index}>
 										{/*NOMBRE*/}
 										<TableCell align="center">
@@ -133,11 +133,9 @@ function Laboratorios(props) {
 												{todo.observacion}
 											</Typography>
 										</TableCell>
-
-										{/*USUARIO*/}
 										<TableCell align="center">
 											<Typography style={{ whiteSpace: 'pre-wrap' }}>
-												{todo.codusuario + ' - ' + todo.usuario}
+												{todo.usuario_id}
 											</Typography>
 										</TableCell>
 										<TableCell align="center">

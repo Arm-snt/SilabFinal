@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Container, Paper, Grid, TextField, Button } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
+import { Save, Cancel } from '@material-ui/icons';
 import { TodoContext } from './TodoContext';
 
 const style = {
@@ -132,6 +133,7 @@ function NuevoLaboratorio() {
 								color="primary"
 								style={style.submit}
 								onClick={onCreateSubmit}
+								endIcon={<Save />}
 							>
 								Guardar
 							</Button>
@@ -144,6 +146,7 @@ function NuevoLaboratorio() {
 								color="secondary"
 								style={style.submit}
 								onClick={historyBack}
+								startIcon={<Cancel />}
 							>
 								Cancelar
 							</Button>

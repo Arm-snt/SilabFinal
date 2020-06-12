@@ -2,11 +2,7 @@ import React, { useContext, useState, Fragment } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination } from '@material-ui/core';
 import { Container, Paper, Typography, TextField, IconButton } from '@material-ui/core';
 import Icon from '@mdi/react';
-import { mdiCircleEditOutline } from '@mdi/js';
-import { Autocomplete } from '@material-ui/lab';
-import { CancelRounded } from '@material-ui/icons';
-import DoneIcon from '@material-ui/icons/Done';
-import CloseIcon from '@material-ui/icons/Close';
+import { mdiAccountEdit, mdiAccountLock, mdiEyeSettings } from '@mdi/js';
 import { TodoContext } from './TodoContext';
 import DeleteDialog from './DeleteDialog';
 
@@ -64,39 +60,13 @@ const style = {
 	}
 };
 
-function Usuarios() {
+function Usuarios(props) {
 	const context = useContext(TodoContext);
-	const [ editarVisible, setEditarVisible ] = useState(false);
-	const [ editarCodusuario, setEditarCodusuario ] = useState(false);
-	const [ editarUsuario, setEditarUsuario ] = useState(false);
-	const [ editarNombre, setEditarNombre ] = useState(false);
-	const [ editarApellido, setEditarApellido ] = useState(false);
-	const [ editarCorreo, setEditarCorreo ] = useState(false);
-	const [ editarPassword, setEditarPassword ] = useState(false);
-	const [ editarTelefono, setEditarTelefono ] = useState(false);
-	const [ editarTipousuario, setEditarTipousuario ] = useState(false);
-	const [ editarEstado, setEditarEstado ] = useState('');
+	const onChangeIndex = props.onChangeIndex;
 	const [ eliminarVisible, setEliminarVisible ] = useState(false);
 	const [ todoEliminar, setTodoEliminar ] = useState(null);
 	const [ page, setPage ] = React.useState(0);
 	const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
-
-	const onEditSubmit = (todoId, event) => {
-		event.preventDefault();
-		context.updateTodo({
-			id: todoId,
-			codusuario: editarCodusuario,
-			usuario: editarUsuario,
-			nombre: editarNombre,
-			apellido: editarApellido,
-			correo: editarCorreo,
-			password: editarPassword,
-			telefono: editarTelefono,
-			tipousuario: editarTipousuario,
-			estado: editarEstado
-		});
-		setEditarVisible(false);
-	};
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -123,7 +93,7 @@ function Usuarios() {
 						<TableHead style={style.tableHead}>
 							<TableRow>
 								<TableCell style={style.tableCell} align="center">
-									Codigo Usuario
+									Codigo
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
 									Usuario
@@ -135,9 +105,6 @@ function Usuarios() {
 									Correo
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
-									Estado
-								</TableCell>
-								<TableCell style={style.tableCell} align="center">
 									Telefono
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
@@ -145,6 +112,9 @@ function Usuarios() {
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
 									Estado
+								</TableCell>
+								<TableCell style={style.tableCell} align="center">
+									Opciones
 								</TableCell>
 							</TableRow>
 						</TableHead>
@@ -154,172 +124,58 @@ function Usuarios() {
 								.reverse()
 								.map((todo, index) => (
 									<TableRow key={'todo ' + index}>
-										{/* Codigo usuario */}
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarCodusuario}
-														onChange={(event) => {
-															setEditarCodusuario(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.codusuario}</Typography>
-											)}
-										</TableCell>
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarUsuario}
-														onChange={(event) => {
-															setEditarUsuario(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.usuario}</Typography>
-											)}
-										</TableCell>
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarNombre}
-														onChange={(event) => {
-															setEditarNombre(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.nombre + ' ' + todo.apellido}</Typography>
-											)}
-										</TableCell>
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarCorreo}
-														onChange={(event) => {
-															setEditarCorreo(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.correo}</Typography>
-											)}
-										</TableCell>
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<TextField
-														type="text"
-														fullWidth={true}
-														autoFocus={true}
-														value={editarTelefono}
-														onChange={(event) => {
-															setEditarTelefono(event.target.value);
-														}}
-													/>
-												</form>
-											) : (
-												<Typography>{todo.telefono}</Typography>
-											)}
-										</TableCell>
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<Autocomplete
-														options={tipousuario}
-														onChange={(e, a) => {
-															setEditarTipousuario(a !== null ? a.tuser : '');
-														}}
-														getOptionLabel={(option) => option.tuser}
-														renderInput={(params) => (
-															<TextField {...params} label="Tipo Usuario" />
-														)}
-													/>
-												</form>
-											) : (
-												<Typography style={{ whiteSpace: 'pre-wrap' }}>
-													{todo.tipousuario}
-												</Typography>
-											)}
-										</TableCell>
-										<TableCell align="left">
-											{editarVisible === todo.id ? (
-												<form onSubmit={onEditSubmit.bind(this, todo.id)}>
-													<Autocomplete
-														options={estado}
-														onChange={(e, a) => {
-															setEditarEstado(a !== null ? a.state : '');
-														}}
-														getOptionLabel={(option) => option.state}
-														renderInput={(params) => (
-															<TextField {...params} label="Estado" />
-														)}
-													/>
-												</form>
-											) : (
-												<Typography style={{ whiteSpace: 'pre-wrap' }}>
-													{todo.estado}
-												</Typography>
-											)}
-										</TableCell>
-										{/* opciones */}
 										<TableCell align="right">
-											{editarVisible === todo.id ? (
-												<Fragment>
-													<IconButton onClick={onEditSubmit.bind(this, todo.id)}>
-														<DoneIcon />
-													</IconButton>
-													<IconButton onClick={() => setEditarVisible(false)}>
-														<CloseIcon />
-													</IconButton>
-												</Fragment>
-											) : (
-												<Fragment>
-													<IconButton
-														onClick={() => {
-															setEditarVisible(todo.id);
-															setEditarCodusuario(todo.codusuario);
-															setEditarUsuario(todo.usuario);
-															setEditarNombre(todo.nombre);
-															setEditarCorreo(todo.correo);
-															setEditarTelefono(todo.telefono);
-															setEditarTipousuario(todo.tipousuario);
-															setEditarEstado(todo.estado);
-														}}
-													>
-														<Icon path={mdiCircleEditOutline} size={1} color="red" />
-													</IconButton>
-													<IconButton
-														color="primary"
-														aria-label="upload picture"
-														component="span"
-														onClick={() => {
-															setEliminarVisible(true);
-															setTodoEliminar(todo);
-														}}
-													>
-														<CancelRounded fontSize="inherit" />
-													</IconButton>
-												</Fragment>
-											)}
+											<Typography>{todo.codusuario}</Typography>
+										</TableCell>
+										<TableCell align="right">
+											<Typography>{todo.usuario}</Typography>
+										</TableCell>
+										<TableCell align="right">
+											<Typography>{todo.nombre + ' ' + todo.apellido}</Typography>
+										</TableCell>
+										<TableCell align="right">
+											<Typography>{todo.correo}</Typography>
+										</TableCell>
+										<TableCell align="right">
+											<Typography>{todo.telefono}</Typography>
+										</TableCell>
+										<TableCell align="right">
+											<Typography style={{ whiteSpace: 'pre-wrap' }}>
+												{todo.tipousuario}
+											</Typography>
+										</TableCell>
+										<TableCell align="right">
+											<Typography style={{ whiteSpace: 'pre-wrap' }}>{todo.estado}</Typography>
+										</TableCell>
+										<TableCell align="right">
+											<Fragment>
+												<IconButton
+													onClick={(e) => {
+														onChangeIndex(2, todo, e);
+													}}
+												>
+													<Icon path={mdiAccountEdit} size={1} color="red" />
+												</IconButton>
+												<IconButton
+													color="primary"
+													component="span"
+													onClick={(e) => {
+														onChangeIndex(3, todo, e);
+													}}
+												>
+													<Icon path={mdiEyeSettings} size={1} color="red" />
+												</IconButton>
+												<IconButton
+													color="primary"
+													component="span"
+													onClick={() => {
+														setEliminarVisible(true);
+														setTodoEliminar(todo);
+													}}
+												>
+													<Icon path={mdiAccountLock} size={1} color="gray" />
+												</IconButton>
+											</Fragment>
 										</TableCell>
 									</TableRow>
 								))}

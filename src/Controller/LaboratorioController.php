@@ -73,7 +73,6 @@ class LaboratorioController extends AbstractController
     public function update(Request $request)
     {
         $content = json_decode($request->getContent());
-
         $id=$content->id;
         $codlaboratorio=$content->codlaboratorio;
         $usuario_id=$content->usuario_id;
@@ -82,7 +81,7 @@ class LaboratorioController extends AbstractController
         $observacion=$content->observacion;
         
         $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
-        $todo = $this->laboratorioRepository->Buscar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
+        $todo = $this->laboratorioRepository->Buscar($id);
         
         $codlaboratorio_bd=$todo['codlaboratorio'];
         $usuario_id_bd=$todo['usuario_id'];
@@ -97,9 +96,15 @@ class LaboratorioController extends AbstractController
         }
 
         try {
+            if($codlaboratorio === '' && $nombre === '' && $ubicacion === '' && $observacion === ''){
+                $codlaboratorio=$codlaboratorio_bd;
+                $nombre=$nombre_bd;
+                $ubicacion=$ubicacion_bd;
+                $observacion=$observacion_bd;
+            }
             $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
             $todo = $this->laboratorioRepository->Actualizar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
-            $todo = $this->laboratorioRepository->Buscar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
+            $todo = $this->laboratorioRepository->Buscar($id);
 
         } catch (Exception $exception) {
             return $this->json([ 
