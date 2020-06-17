@@ -10,9 +10,13 @@ class TodoContextProvider extends Component {
 		this.state = {
 			todos: [],
 			est: [],
+			lab:[],
+			usu:[],
 			message: {}
 		};
 		this.readTodo();
+		this.readLaboratorios();
+		this.readUsuario();
 		this.leer();
 	}
 
@@ -29,7 +33,30 @@ class TodoContextProvider extends Component {
 				console.error(error);
 			});
 	}
-
+	readUsuario() {
+		axios
+			.get('api/usuario/read')
+			.then((response) => {
+				this.setState({
+					usu: response.data
+				});
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}
+	readLaboratorios() {
+		axios
+			.get('api/laboratorio/read')
+			.then((response) => {
+				this.setState({
+					lab: response.data
+				});
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}
 	//read
 	leer() {
 		axios

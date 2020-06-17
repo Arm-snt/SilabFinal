@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, Fragment } from 'react';
+import { TodoContext } from './TodoContext';
 import { Container, Paper, Grid, TextField, Button } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { Save, Cancel } from '@material-ui/icons';
-import { TodoContext } from './TodoContext';
 
 const style = {
 	container: {
@@ -31,7 +31,7 @@ const style = {
 function NuevoLaboratorio() {
 	const context = useContext(TodoContext);
 	let user = [];
-	const [ addUsuario_id, setaddUsuario_id ] = useState('');
+	const [ addUsuario_id, setaddUsuario_id ] = useState(null);
 	const [ addCodLaboratorio, setaddCodLaboratorio ] = useState('');
 	const [ addNombre, setaddNombre ] = useState('');
 	const [ addUbicacion, setaddUbicacion ] = useState('');
@@ -155,6 +155,8 @@ function NuevoLaboratorio() {
 				</form>
 			</Paper>
 		</Container>
+
+
 	);
 }
 

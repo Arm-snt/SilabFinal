@@ -42,8 +42,8 @@ function TablaElementos({ data, elemento }) {
 	const elementoscarga = [ ...new Set(elemento) ];
 	let datosE = [];
 	let nuevosE = [];
-	const [ deleteConfirmationIsShown, setDeleteConfirmationIsShown ] = useState(false);
-	const [ elementosDelete, setelementosDelete ] = useState([]);
+	const [ eliminarVisible, setEliminarVisible ] = useState(false);
+	const [ elementosDelete, setElementosDelete ] = useState([]);
 	const [ page, setPage ] = React.useState(0);
 	const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
@@ -66,7 +66,7 @@ function TablaElementos({ data, elemento }) {
 	}
 
 	function eliminar(elementosDelete) {
-		setDeleteConfirmationIsShown(true);
+		setEliminarVisible(true);
 	}
 	
 	useEffect(() => {
@@ -128,7 +128,7 @@ function TablaElementos({ data, elemento }) {
 														aria-label="upload picture"
 														component="span"
 														onClick={() => {
-															setelementosDelete(todo);
+															setElementosDelete(todo);
 															eliminar();
 														}}
 													>
@@ -152,11 +152,11 @@ function TablaElementos({ data, elemento }) {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 			</Container>
-			{deleteConfirmationIsShown && (
+			{eliminarVisible && (
 				<DeleteDialog
 					todo={elementosDelete}
-					open={deleteConfirmationIsShown}
-					setDeleteConfirmationIsShown={setDeleteConfirmationIsShown}
+					open={eliminarVisible}
+					setEliminarVisible={setEliminarVisible}
 				/>
 			)}
 		</Fragment>

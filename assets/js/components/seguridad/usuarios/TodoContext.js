@@ -44,6 +44,7 @@ class TodoContextProvider extends Component{
 	}    
     //Crear
     createTodo(event, todo) {
+		console.log(todo);
 		event.preventDefault();
 		axios.post('api/usuario/create', todo)
 			 .then(response => {

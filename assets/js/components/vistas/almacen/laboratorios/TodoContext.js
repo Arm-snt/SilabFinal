@@ -115,69 +115,66 @@ class TodoContextProvider extends Component {
 			});
 	}
 
-
 	updateElemento(data) {
-		if(data.id.constructor === Array){
-			data.id.forEach(elemento => {
+		if (data.id.constructor === Array) {
+			data.id.forEach((elemento) => {
 				let informacion = {
-					id:elemento,
-					laboratorio_id:data.laboratorio_id,
-					codelemento:'',
-					elemento:'',
-					stock:'',
-					horauso:'',
-					categoria:'',
-					estado:'',
-				}
+					id: elemento,
+					laboratorio_id: data.laboratorio_id,
+					codelemento: '',
+					elemento: '',
+					stock: '',
+					horauso: '',
+					categoria: '',
+					estado: ''
+				};
 				axios
-				.put('api/elemento/update/' + elemento, informacion)
+					.put('api/elemento/update/' + elemento, informacion)
+					.then((response) => {
+						if (response.data.message.level === 'success') {
+							let todos = [ ...this.state.todos ];
+							let todo = todos.find((todo) => {
+								return todo.id === elemento;
+							});
+							this.setState({
+								todos: todos,
+								message: response.data.message
+							});
+						} else {
+							this.setState({
+								message: response.data.message
+							});
+						}
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			});
+		} else {
+			
+			axios
+				.put('api/elemento/update/' + data.id, data)
 				.then((response) => {
-					if(response.data.message.level === 'success'){
+					if (response.data.message.level === 'success') {
 						let todos = [ ...this.state.todos ];
 						let todo = todos.find((todo) => {
-							return todo.id === elemento;
+							return todo.id === data.id;
 						});
 						this.setState({
 							todos: todos,
-							message: response.data.message,
+							message: response.data.message
 						});
-					} else { 
+					} else {
 						this.setState({
-							message: response.data.message,
-						})
+							message: response.data.message
+						});
 					}
-	
 				})
 				.catch((error) => {
 					console.error(error);
 				});
-			});
-		} else {
-			axios
-			.put('api/elemento/update/' + data.id, data)
-			.then((response) => {
-				if (response.data.message.level === 'success') {
-					let todos = [ ...this.state.todos ];
-					let todo = todos.find((todo) => {
-						return todo.id === data.id;
-					});
-					this.setState({
-						todos: todos,
-						message: response.data.message
-					});
-				} else {
-					this.setState({
-						message: response.data.message
-					});
-				}
-			})
-			.catch((error) => {
-				console.error(error);
-			});
-
 		}
-
-    }
+	}
 
 	//delete
 	deleteTodo(data) {
@@ -189,7 +186,6 @@ class TodoContextProvider extends Component {
 					let todo = todos.find((todo) => {
 						return todo.id === data.id;
 					});
-
 					todos.splice(todos.indexOf(todo), 1);
 
 					this.setState({

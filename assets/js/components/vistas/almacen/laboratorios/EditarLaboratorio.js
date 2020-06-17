@@ -3,7 +3,7 @@ import { Container, Divider, Paper, Grid, TextField, Button } from '@material-ui
 import { Autocomplete } from '@material-ui/lab';
 import { TodoContext } from './TodoContext';
 import { Save, Send, Cancel } from '@material-ui/icons';
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import TablaElementos from './TablaElementos';
 
 const style = {
@@ -71,13 +71,12 @@ function EditarLaboratorio(data) {
 			observacion: editObservacion,
 			usuario_id: editUsuario
 		});
-		if(editElementop.length){
+		if (editElementop.length) {
 			context.updateElemento({
 				id: editElementop,
 				laboratorio_id: editId
 			});
 		}
-
 	};
 
 	function cargar() {

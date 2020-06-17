@@ -19,9 +19,15 @@ function checkLevel(level){
 function EstSnackBar() {
 
     const context = useContext(TodoContext);
+    const handleClose = () =>{
+		context.setMessage({});
+	}
 
     return (
-        <Snackbar open={context.message.text !== undefined} autoHideDuration={6000}>            
+        <Snackbar 
+        open={context.message.text !== undefined} 
+        autoHideDuration={6000}
+        onClose={handleClose}>            
             {context.message.text && (
                 <SnackbarContent style={{backgroundColor:checkLevel(context.message.level)}} message={context.message.text.map((text, index)=>(
                     <Fragment key={index+ ' ' +text}>                        
@@ -29,7 +35,10 @@ function EstSnackBar() {
                         <br/>
                     </Fragment>
             ))} action={[
-                    <Button onClick={()=>{context.setMessage({})}} key='dissmiss' color='inherit'>Cerrar</Button>
+                    <Button 
+                    onClick={handleClose}
+                    key='dissmiss' 
+                    color='inherit'>Cerrar</Button>
             ]} />
             )}
         </Snackbar>

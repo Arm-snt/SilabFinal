@@ -8,7 +8,7 @@ import DeleteDialog from './DeleteDialog';
 
 const style = {
 	table: {
-		minWidth: 650,
+		minWidth: 500,
 		paddingTop: '40px'
 	},
 	container: {
@@ -24,11 +24,6 @@ const style = {
 	},
 	link: {
 		display: 'flex'
-	},
-	homeIcon: {
-		width: 20,
-		height: 20,
-		marginRight: '4px'
 	},
 	form: {
 		width: '100%'
@@ -59,8 +54,9 @@ const style = {
 function Laboratorios(props) {
 	const onChangeIndex = props.onChangeIndex;
 	const context = useContext(TodoContext);
-	const [ deleteConfirmationIsShown, setDeleteConfirmationIsShown ] = useState(false);
-	const [ todoToBeDeleted, setTodoToBeDeleted ] = useState(null);
+	let Laboratorista = "";
+	const [ eliminarVisible, setEliminarVisible ] = useState(false);
+	const [ laboratorioEliminar, setLaboratorioEliminar ] = useState(null);
 	const [ page, setPage ] = React.useState(0);
 	const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
@@ -135,7 +131,12 @@ function Laboratorios(props) {
 										</TableCell>
 										<TableCell align="center">
 											<Typography style={{ whiteSpace: 'pre-wrap' }}>
-												{todo.usuario_id}
+												{context.usu.map((res) => {
+														if (res.id == todo.usuario_id) {
+															Laboratorista = res.codusuario + "-" +res.nombre 
+														}
+													})}
+												{Laboratorista}
 											</Typography>
 										</TableCell>
 										<TableCell align="center">
@@ -154,10 +155,10 @@ function Laboratorios(props) {
 												</IconButton>
 												<IconButton
 													onClick={() => {
-														setDeleteConfirmationIsShown(true);
-														setTodoToBeDeleted(todo);
+														setEliminarVisible(true);
+														setLaboratorioEliminar(todo);
 													}}>
-													<Icon path={mdiFileCancel} size={1} color="red" />
+													<Icon path={mdiFileCancel} size={1} color="gray" />
 												</IconButton>
 											</Fragment>
 										</TableCell>
@@ -176,11 +177,11 @@ function Laboratorios(props) {
 					onChangeRowsPerPage={handleChangeRowsPerPage}
 				/>
 			</Container>
-			{deleteConfirmationIsShown && (
+			{eliminarVisible && (
 				<DeleteDialog
-					todo={todoToBeDeleted}
-					open={deleteConfirmationIsShown}
-					setDeleteConfirmationIsShown={setDeleteConfirmationIsShown}
+					todo={laboratorioEliminar}
+					open={eliminarVisible}
+					setEliminarVisible={setEliminarVisible}
 				/>
 			)}
 		</Fragment>

@@ -60,7 +60,7 @@ class LaboratorioController extends AbstractController
                 ]);
         }  
             return $this->json([
-                'message' => ['text'=>['El laboratorio de '.$nombre, 'se ha registrado!' ] , 'level'=>'success']      
+                'message' => ['text'=>['El laboratorio de '.$nombre, 'se ha registrado! porque no funcionaabdfhbasdfbaisldfbasbdfubasdufbasudfbuiasdbfuasbdpfubaspdifbapsdbfpuasbdpfuabsdupfbapsudfbpausdbfpuasbdfpuiabsduifbapsudfbpasdbfpuiasbpfuabspufbapsidfbpaisduisduisduisduisduisduisduisduisduisduisduisduisduusdbfpuasfpbapusdfbpashfpaushdpfahdpfahsdufhapsdufhasdhfupashdf' ] , 'level'=>'success']      
                  ]);
     }
 
@@ -119,15 +119,15 @@ class LaboratorioController extends AbstractController
     }
 
     /**
-     * @Route("/delete/{id}", name="api_laboratorio_delete", methods={"DELETE"})
+     * @Route("/delete/{id}", name="api_laboratorio_delete", methods={"DELETE","GET"})
      * @param Request $request
      * @return JsonResponse
      */
     public function delete(Request $request)
     {
+        $content = json_decode($request->getContent());
+        $id=$content->id;
 
-        $id='5';
-        
         try {
             $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
             $todo = $this->laboratorioRepository->Eliminar($id);

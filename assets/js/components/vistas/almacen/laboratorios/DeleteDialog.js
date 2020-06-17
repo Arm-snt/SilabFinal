@@ -1,37 +1,76 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { DialogTitle, Dialog, DialogContent, DialogActions, Button } from '@material-ui/core';
+import { DialogTitle, Dialog, DialogContent, DialogContentText, DialogActions, Button, Slide } from '@material-ui/core';
+import { Cached, Cancel } from '@material-ui/icons';
 import { TodoContext } from './TodoContext';
+
+const Transicion = React.forwardRef(function Transition(props, ref) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function DeleteDialog(props) {
 	const context = useContext(TodoContext);
+	let titulo = '¿Desea cambiar el elemento de laboratorio?';
+	let contenido = 'Esto permitira reasignar el elemento a otro laboratorio: ';
+	let nombre = "";
+	let update = {}
+
+	if(props.todo.codlaboratorio){
+		titulo = '¿Dese eliminar el laboratorio?';
+		contenido = 'Esto permitira inhabilitar el acceso al laboratorio: ';
+		nombre = props.todo.nombre;
+		update = {
+			id: props.todo.id,
+			codlaboratorio: props.todo.codlaboratorio,
+			nombre: props.todo.nombre,
+			ubicacion: props.todo.ubicacion,
+			observacion: props.todo.observacion,
+			usuario_id: props.todo.usuario_id
+		};
+
+	} else {
+		nombre = props.todo.elemento;
+		update = {
+			id: props.todo.id,
+			codelemento: props.todo.codelemento,
+			elemento: props.todo.elemento,
+			laboratorio_id: null,
+			stock: props.todo.stock,
+			horauso: props.todo.horauso,
+			categoria: props.todo.categoria,
+			estado: props.todo.estado
+		}
+	}
 
 	const hide = () => {
-		props.setDeleteConfirmationIsShown(false);
+		props.setEliminarVisible(false);
 	};
 
 	return (
-		<Dialog onClose={hide} fullWidth={true} maxWidth="sm" open={props.open}>
-			<DialogTitle>¿Desea eliminar este registro?</DialogTitle>
-			<DialogContent>{props.todo.elemento}</DialogContent>
+		<Dialog onClose={hide} TransitionComponent={Transicion} fullWidth={true} maxWidth="sm" open={props.open}>
+			<DialogTitle>{titulo}</DialogTitle>
+			<DialogContent>
+				<DialogContentText>{contenido + nombre}</DialogContentText>
+			</DialogContent>
 			<DialogActions>
-				<Button onClick={hide}>Cancelar</Button>
+				<Button variant="contained" color="secondary" size="small" startIcon={<Cancel />} onClick={hide}>
+					Cancelar
+				</Button>
 				<Button
-					onClick={() => {
-						context.updateElemento({
-							id: props.todo.id,
-							laboratorio_id: null,
-							elemento: props.todo.elemento,
-							codelemento:props.todo.codelemento,
-							stock:props.todo.stock,
-							horauso:props.todo.horauso,
-							categoria:props.todo.categoria,
-							estado:props.todo.estado,
-						});
+					variant="contained"
+					color="primary"
+					size="small"
+					endIcon={<Cached />}
+			  		autoFocus
+					onClick={() => {	
+						if(update.codelemento){
+							context.updateElemento(update);
+						} else {
+							context.deleteTodo(update);
+						}
 						hide();
-					}}
-				>
-					Eliminar
+					}}>
+					cambiar
 				</Button>
 			</DialogActions>
 		</Dialog>
@@ -40,7 +79,7 @@ function DeleteDialog(props) {
 
 DeleteDialog.propTypes = {
 	open: PropTypes.bool.isRequired,
-	setDeleteConfirmationIsShown: PropTypes.func.isRequired,
+	setEliminarVisible: PropTypes.func.isRequired,
 	todo: PropTypes.object
 };
 

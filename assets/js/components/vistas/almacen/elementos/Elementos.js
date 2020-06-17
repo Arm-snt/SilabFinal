@@ -2,7 +2,7 @@ import React, { useContext, useState, Fragment } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination } from '@material-ui/core';
 import { Container, Paper, Typography, TextField, IconButton } from '@material-ui/core';
 import Icon from '@mdi/react';
-import { mdiCircleEditOutline } from '@mdi/js';
+import { mdiEyeSettings, mdiBeakerRemove, mdiBeakerAlert } from '@mdi/js';
 import { Autocomplete } from '@material-ui/lab';
 import { CancelRounded } from '@material-ui/icons';
 import DoneIcon from '@material-ui/icons/Done';
@@ -131,7 +131,7 @@ function Elementos(props) {
 								.map((todo, index) => (
 									<TableRow key={'todo ' + index}>
 										{/*codigo elemento*/}
-										<TableCell align="left">
+										<TableCell align="center">
 											<Typography>{todo.codelemento}</Typography>
 										</TableCell>
 										{/*nombre elemento*/}
@@ -150,19 +150,19 @@ function Elementos(props) {
 											</Typography>
 										</TableCell>
 										{/*stock elemento*/}
-										<TableCell align="left">
+										<TableCell align="center">
 											<Typography>{todo.stock}</Typography>
 										</TableCell>
 										{/*hora de uso*/}
-										<TableCell align="left">
+										<TableCell align="center">
 											<Typography>{todo.horauso}</Typography>
 										</TableCell>
 										{/* categoria */}
-										<TableCell align="left">
+										<TableCell align="center">
 											<Typography style={{ whiteSpace: 'pre-wrap' }}>{todo.categoria}</Typography>
 										</TableCell>
 										{/* estado */}
-										<TableCell align="left">
+										<TableCell align="center">
 											<Typography style={{ whiteSpace: 'pre-wrap' }}>{todo.estado}</Typography>
 										</TableCell>
 										{/* opciones */}
@@ -171,20 +171,20 @@ function Elementos(props) {
 												<IconButton
 													onClick={(e) => {
 														onChangeIndex(2, todo, e);
-													}}
-												>
-													<Icon path={mdiCircleEditOutline} size={1} color="red" />
+													}}>
+													<Icon path={mdiBeakerAlert} size={1} color="red" />
 												</IconButton>
 												<IconButton
-													color="primary"
-													aria-label="upload picture"
-													component="span"
+													onClick={() => {
+													}}>
+													<Icon path={mdiEyeSettings} size={1} color="red" />
+												</IconButton>
+												<IconButton
 													onClick={() => {
 														setEliminarVisible(true);
 														setTodoEliminar(todo);
-													}}
-												>
-													<CancelRounded fontSize="inherit" />
+													}}>
+													<Icon path={mdiBeakerRemove} size={1} color="gray" />
 												</IconButton>
 											</Fragment>
 										</TableCell>

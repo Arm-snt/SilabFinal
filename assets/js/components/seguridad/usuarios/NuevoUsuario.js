@@ -9,7 +9,8 @@ import {
 	TextField,
 	IconButton,
 	Divider,
-	Button
+	Button,
+	InputAdornment
 } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import { TodoContext } from './TodoContext';
@@ -45,6 +46,7 @@ const style = {
 
 function NuevoUsuario() {
 	const context = useContext(TodoContext);
+	let domain = '@ufpso.edu.co';
 	const [ addCodusuario, setAddCodusuario ] = useState('');
 	const [ addUsuario, setAddUsuario ] = useState('');
 	const [ addNombre, setAddNombre ] = useState('');
@@ -53,7 +55,7 @@ function NuevoUsuario() {
 	const [ addPassword, setAddPassword ] = useState('');
 	const [ addTelefono, setAddTelefono ] = useState('');
 	const [ addTipousuario, setAddTipousuario ] = useState('');
-	const [ addEstado, setAddEstado ] = useState('');
+	const [ addEstado, setAddEstado ] = useState('Activo');
 
 	const onCreateSubmit = (event) => {
 		event.preventDefault();
@@ -62,7 +64,7 @@ function NuevoUsuario() {
 			usuario: addUsuario,
 			nombre: addNombre,
 			apellido: addApellido,
-			correo: addCorreo,
+			correo: addCorreo + domain,
 			password: addPassword,
 			telefono: addTelefono,
 			tipousuario: addTipousuario,
@@ -142,6 +144,7 @@ function NuevoUsuario() {
 								onChange={(event) => {
 									setAddCorreo(event.target.value);
 								}}
+								InputProps={{endAdornment: <InputAdornment position="end">@ufpso.edu.co</InputAdornment>,}}
 								label="Ingrese su Correo"
 								fullWidth={true}
 							/>
@@ -176,16 +179,6 @@ function NuevoUsuario() {
 								}}
 								getOptionLabel={(option) => option.tuser}
 								renderInput={(params) => <TextField {...params} label="Tipo de Usuario" />}
-							/>
-						</Grid>
-						<Grid item md={4} xs={6}>
-							<Autocomplete
-								options={estado}
-								onChange={(e, a) => {
-									setAddEstado(a !== null ? a.state : '');
-								}}
-								getOptionLabel={(option) => option.state}
-								renderInput={(params) => <TextField {...params} label="Estado" />}
 							/>
 						</Grid>
 					</Grid>

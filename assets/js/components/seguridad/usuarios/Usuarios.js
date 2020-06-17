@@ -1,8 +1,8 @@
 import React, { useContext, useState, Fragment } from 'react';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableContainer, TablePagination } from '@material-ui/core';
-import { Container, Paper, Typography, TextField, IconButton } from '@material-ui/core';
+import { Container, Paper, Typography, TextField, IconButton, InputAdornment } from '@material-ui/core';
 import Icon from '@mdi/react';
-import { mdiAccountEdit, mdiAccountLock, mdiEyeSettings } from '@mdi/js';
+import { mdiAccountEdit, mdiAccountLock, mdiEyeSettings, mdiCardSearch } from '@mdi/js';
 import { TodoContext } from './TodoContext';
 import DeleteDialog from './DeleteDialog';
 
@@ -57,14 +57,20 @@ const style = {
 	},
 	tableCell: {
 		color: '#ffffff'
+	},
+	search: {
+		width: 400,
+		marginBottom: 20
 	}
 };
 
 function Usuarios(props) {
 	const context = useContext(TodoContext);
 	const onChangeIndex = props.onChangeIndex;
+	let filtro = {};
+	const [ termino, setTermino ] = useState('');
 	const [ eliminarVisible, setEliminarVisible ] = useState(false);
-	const [ todoEliminar, setTodoEliminar ] = useState(null);
+	const [ usuarioEliminar, setusuarioEliminar ] = useState(null);
 	const [ page, setPage ] = React.useState(0);
 	const [ rowsPerPage, setRowsPerPage ] = React.useState(5);
 
@@ -87,6 +93,20 @@ function Usuarios(props) {
 
 	return (
 		<Fragment>
+			<TextField
+				fullWidth
+				placeholder="Buscar..."
+				onChange={(event) => {
+					setTermino(event.target.value)}}
+				value={termino}
+				style={style.search}
+				InputProps={{
+					startAdornment: (
+						<InputAdornment position="start">
+							<Icon path={mdiCardSearch} size={1.5} color="red" />
+						</InputAdornment>
+					)
+				}}/>
 			<Container style={style.container} component="main" maxWidth="lg" justify="center">
 				<TableContainer component={Paper} style={style.space}>
 					<Table style={style.table} aria-label="customized table">
@@ -120,6 +140,12 @@ function Usuarios(props) {
 						</TableHead>
 						<TableBody>
 							{context.todos
+								.filter(
+									function(termino){
+										return function(filtro) {
+											return (codusuario.includes(termino) || !termino)}									 							
+									},
+									console.log(filtro))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.reverse()
 								.map((todo, index) => (
@@ -170,7 +196,7 @@ function Usuarios(props) {
 													component="span"
 													onClick={() => {
 														setEliminarVisible(true);
-														setTodoEliminar(todo);
+														setusuarioEliminar(todo);
 													}}
 												>
 													<Icon path={mdiAccountLock} size={1} color="gray" />
@@ -193,7 +219,7 @@ function Usuarios(props) {
 				/>
 			</Container>
 			{eliminarVisible && (
-				<DeleteDialog todo={todoEliminar} open={eliminarVisible} setEliminarVisible={setEliminarVisible} />
+				<DeleteDialog todo={usuarioEliminar} open={eliminarVisible} setEliminarVisible={setEliminarVisible} />
 			)}
 		</Fragment>
 	);
