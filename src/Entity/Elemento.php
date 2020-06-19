@@ -53,7 +53,7 @@ class Elemento
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Laboratorio", inversedBy="elementos")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $laboratorio;
 

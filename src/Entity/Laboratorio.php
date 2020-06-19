@@ -39,6 +39,11 @@ class Laboratorio
     private $observacion;
 
     /**
+     * @ORM\Column(type="string", length=8)
+     */
+    private $estado;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Usuario", inversedBy="laboratorios")
      */
     private $usuario;
@@ -102,6 +107,18 @@ class Laboratorio
     public function setObservacion(?string $observacion): self
     {
         $this->observacion = $observacion;
+
+        return $this;
+    }
+
+    public function getEstado(): ?string
+    {
+        return $this->estado;
+    }
+
+    public function setEstado(?string $estado): self
+    {
+        $this->estado = $estado;
 
         return $this;
     }

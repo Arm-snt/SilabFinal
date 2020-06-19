@@ -47,8 +47,7 @@ function EstSnackBar() {
 						<Button
 							onClick={handleClose}
 							key="dissmiss"
-							color="inherit"
-						>
+							color="inherit">
 							Cerrar
 						</Button>
 					]}

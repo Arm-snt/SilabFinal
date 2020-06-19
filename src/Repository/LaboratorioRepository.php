@@ -22,8 +22,8 @@ class LaboratorioRepository extends ServiceEntityRepository
     public function Mostrar(){
         try {
             $conn = $this->getEntityManager()->getConnection();
-            $stm = $conn->prepare("SELECT lab.id, lab.codlaboratorio, lab.nombre, lab.ubicacion, lab.usuario_id, lab.observacion
-            FROM laboratorio lab, usuario usu
+            $stm = $conn->prepare("SELECT lab.id, lab.codlaboratorio, lab.nombre, lab.ubicacion, lab.usuario_id, lab.observacion, lab.estado
+            FROM laboratorio lab
             GROUP BY lab.id");
             $stm->execute([]);
             $res = $stm->fetchAll();
@@ -33,11 +33,11 @@ class LaboratorioRepository extends ServiceEntityRepository
         }
     }
 
-    public function Insertar($codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion){
+    public function Insertar($codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion, $estado){
         try {
             $conn = $this->getEntityManager()->getConnection();
-            $stm = $conn->prepare(" INSERT INTO laboratorio (codlaboratorio, usuario_id, nombre, ubicacion, observacion) VALUES (:codlaboratorio, :usuario_id, :nombre, :ubicacion, :observacion)");
-            if($stm->execute(array(':codlaboratorio'=>$codlaboratorio, ':usuario_id'=>$usuario_id, ':nombre'=>$nombre, ':ubicacion'=>$ubicacion, ':observacion'=>$observacion)));
+            $stm = $conn->prepare(" INSERT INTO laboratorio (codlaboratorio, usuario_id, nombre, ubicacion, observacion, estado) VALUES (:codlaboratorio, :usuario_id, :nombre, :ubicacion, :observacion, :estado)");
+            if($stm->execute(array(':codlaboratorio'=>$codlaboratorio, ':usuario_id'=>$usuario_id, ':nombre'=>$nombre, ':ubicacion'=>$ubicacion, ':observacion'=>$observacion, ':estado'=>$estado)));
         } catch (Exception $e) {
             return $e;
         }
@@ -47,7 +47,7 @@ class LaboratorioRepository extends ServiceEntityRepository
     public function Buscar($id){
         try {
             $conn = $this->getEntityManager()->getConnection();
-            $stm = $conn->prepare(" SELECT lab.codlaboratorio, lab.nombre, lab.ubicacion, lab.observacion, lab.usuario_id
+            $stm = $conn->prepare(" SELECT lab.codlaboratorio, lab.nombre, lab.ubicacion, lab.observacion, lab.usuario_id, lab.estado
             FROM laboratorio lab
             WHERE lab.id=:lab");
             $lab=$id;
@@ -60,11 +60,11 @@ class LaboratorioRepository extends ServiceEntityRepository
     }
 
     
-    public function Actualizar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion){
+    public function Actualizar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion, $estado){
         try {
             $conn = $this->getEntityManager()->getConnection();
-            $stm = $conn->prepare(" UPDATE laboratorio SET  codlaboratorio=:codlaboratorio, nombre=:nombre, ubicacion=:ubicacion, observacion=:observacion, usuario_id = :usuario_id  WHERE laboratorio.id =:id");
-            if($stm->execute(array(':id'=>$id, ':codlaboratorio' =>$codlaboratorio, ':nombre' =>$nombre, ':ubicacion' =>$ubicacion,':observacion'=>$observacion,  ':usuario_id' =>$usuario_id )));
+            $stm = $conn->prepare(" UPDATE laboratorio SET  codlaboratorio=:codlaboratorio, nombre=:nombre, ubicacion=:ubicacion, observacion=:observacion, estado=:estado, usuario_id = :usuario_id  WHERE laboratorio.id =:id");
+            if($stm->execute(array(':id'=>$id, ':codlaboratorio' =>$codlaboratorio, ':nombre' =>$nombre, ':ubicacion' =>$ubicacion,':observacion'=>$observacion, ':estado'=>$estado, ':usuario_id' =>$usuario_id )));
         } catch (Exception $e) {
             return $e;
         }

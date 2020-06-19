@@ -98,6 +98,9 @@ function Laboratorios(props) {
 									Laboratorista
 								</TableCell>
 								<TableCell style={style.tableCell} align="center">
+									Estado
+								</TableCell>
+								<TableCell style={style.tableCell} align="center">
 									Opciones
 								</TableCell>
 							</TableRow>
@@ -137,6 +140,11 @@ function Laboratorios(props) {
 														}
 													})}
 												{Laboratorista}
+											</Typography>
+										</TableCell>
+										<TableCell align="center">
+											<Typography style={{ whiteSpace: 'pre-wrap' }}>
+												{todo.estado}
 											</Typography>
 										</TableCell>
 										<TableCell align="center">

@@ -66,6 +66,7 @@ const style = {
 
 function Usuarios(props) {
 	const context = useContext(TodoContext);
+	console.log(context.todos);
 	const onChangeIndex = props.onChangeIndex;
 	let filtro = {};
 	const [ termino, setTermino ] = useState('');
@@ -82,6 +83,18 @@ function Usuarios(props) {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
 	};
+
+	function busqueda(termino){
+		return function(filtro) {
+			return (
+				filtro.usuario.toLowerCase().includes(termino.toLowerCase()) ||
+				filtro.nombre.toLowerCase().includes(termino.toLowerCase()) ||
+				filtro.correo.toLowerCase().includes(termino.toLowerCase()) ||
+				filtro.telefono.includes(termino.toLowerCase()) ||
+				filtro.codusuario.toString().includes(termino.toLowerCase()) ||
+				filtro.tipousuario.toLowerCase().includes(termino.toLowerCase()) ||
+				!termino)}											
+	}
 
 	function historyBack() {
 		window.history.back();
@@ -140,12 +153,7 @@ function Usuarios(props) {
 						</TableHead>
 						<TableBody>
 							{context.todos
-								.filter(
-									function(termino){
-										return function(filtro) {
-											return (codusuario.includes(termino) || !termino)}									 							
-									},
-									console.log(filtro))
+								.filter(busqueda(termino))
 								.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 								.reverse()
 								.map((todo, index) => (

@@ -90,8 +90,7 @@ export default function SimpleTabs(onchangeTab) {
 						<SwipeableViews
 							axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 							index={value}
-							onChangeIndex={onChangeIndex}
-						>
+							onChangeIndex={onChangeIndex}>
 							<TabLaboratorio value={value} index={0}>
 								<TodoContextProvider>
 									<Laboratorios onChangeIndex={onChangeIndex} />

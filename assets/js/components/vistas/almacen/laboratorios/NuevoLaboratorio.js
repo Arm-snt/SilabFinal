@@ -36,6 +36,7 @@ function NuevoLaboratorio() {
 	const [ addNombre, setaddNombre ] = useState('');
 	const [ addUbicacion, setaddUbicacion ] = useState('');
 	const [ addObservacion, setaddObservacion ] = useState('');
+	const [ addEstado, setAddEstado ] = useState('Activo');
 	const [ clear, setClear ] = useState(false);
 
 	const onCreateSubmit = (event) => {
@@ -45,7 +46,8 @@ function NuevoLaboratorio() {
 			codlaboratorio: addCodLaboratorio,
 			nombre: addNombre,
 			ubicacion: addUbicacion,
-			observacion: addObservacion
+			observacion: addObservacion,
+			estado: addEstado,
 		});
 		setaddUsuario_id('');
 		setaddCodLaboratorio('');

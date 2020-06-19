@@ -48,11 +48,12 @@ class LaboratorioController extends AbstractController
         $nombre=$content['nombre'];
         $ubicacion=$content['ubicacion'];
         $observacion=$content['observacion'];
+        $estado=$content['estado'];
         
         try {
             
             $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
-            $todo = $this->laboratorioRepository->Insertar($codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
+            $todo = $this->laboratorioRepository->Insertar($codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion, $estado);
                 
         } catch (Exception $exception) {
             return $this->json([ 
@@ -79,6 +80,7 @@ class LaboratorioController extends AbstractController
         $nombre=$content->nombre;
         $ubicacion=$content->ubicacion;
         $observacion=$content->observacion;
+        $estado=$content->estado;
         
         $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
         $todo = $this->laboratorioRepository->Buscar($id);
@@ -88,22 +90,24 @@ class LaboratorioController extends AbstractController
         $nombre_bd=$todo['nombre'];
         $ubicacion_bd=$todo['ubicacion'];
         $observacion_bd=$todo['observacion'];
+        $estado_bd=$todo['estado'];
 
-        if ($codlaboratorio===$codlaboratorio_bd && $usuario_id===$usuario_id_bd && $nombre===$nombre_bd && $ubicacion===$ubicacion_bd && $observacion===$observacion_bd) {
+        if ($codlaboratorio===$codlaboratorio_bd && $usuario_id===$usuario_id_bd && $nombre===$nombre_bd && $ubicacion===$ubicacion_bd && $observacion===$observacion_bd && $estado===$estado_bd) {
             return $this->json([
                 'message' => ['text'=>['No se realizaron cambios al laboratorio: '.$nombre_bd] , 'level'=>'warning']
             ]);
         }
 
         try {
-            if($codlaboratorio === '' && $nombre === '' && $ubicacion === '' && $observacion === ''){
+            if($codlaboratorio === '' && $nombre === '' && $ubicacion === '' && $observacion === '' && $estado === ''){
                 $codlaboratorio=$codlaboratorio_bd;
                 $nombre=$nombre_bd;
                 $ubicacion=$ubicacion_bd;
                 $observacion=$observacion_bd;
+                $estado=$estado_bd;
             }
             $todo = $this->getDoctrine()->getRepository(Laboratorio::class, 'default');
-            $todo = $this->laboratorioRepository->Actualizar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion);
+            $todo = $this->laboratorioRepository->Actualizar($id, $codlaboratorio, $usuario_id, $nombre, $ubicacion, $observacion, $estado);
             $todo = $this->laboratorioRepository->Buscar($id);
 
         } catch (Exception $exception) {

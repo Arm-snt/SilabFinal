@@ -91,6 +91,7 @@ export default class Mantenimientos extends Component {
 			rows: rows,
 			term: ''
 		};
+		console.log(rows);
 		this.searchHandler = this.searchHandler.bind(this);
 	}
 	searchHandler(event) {

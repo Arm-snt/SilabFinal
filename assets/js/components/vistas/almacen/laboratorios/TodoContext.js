@@ -99,6 +99,7 @@ class TodoContextProvider extends Component {
 					todo.nombre = response.data.todo.nombre;
 					todo.ubicacion = response.data.todo.ubicacion;
 					todo.observacion = response.data.todo.observacion;
+					todo.estado = response.data.todo.estado;
 
 					this.setState({
 						todos: todos,
@@ -132,12 +133,12 @@ class TodoContextProvider extends Component {
 					.put('api/elemento/update/' + elemento, informacion)
 					.then((response) => {
 						if (response.data.message.level === 'success') {
-							let todos = [ ...this.state.todos ];
-							let todo = todos.find((todo) => {
-								return todo.id === elemento;
+							let ele = [ ...this.state.ele ];
+							let eles = ele.find((eles) => {
+								return eles.id === elemento;
 							});
 							this.setState({
-								todos: todos,
+								ele: ele,
 								message: response.data.message
 							});
 						} else {
@@ -150,18 +151,17 @@ class TodoContextProvider extends Component {
 						console.error(error);
 					});
 			});
-		} else {
-			
+		} else {			
 			axios
 				.put('api/elemento/update/' + data.id, data)
 				.then((response) => {
 					if (response.data.message.level === 'success') {
-						let todos = [ ...this.state.todos ];
-						let todo = todos.find((todo) => {
-							return todo.id === data.id;
+						let ele = [ ...this.state.ele ];
+						let eles = ele.find((eles) => {
+							return eles.id === data.id;
 						});
 						this.setState({
-							todos: todos,
+							ele: ele,
 							message: response.data.message
 						});
 					} else {

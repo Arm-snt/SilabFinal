@@ -45,6 +45,7 @@ function EditarLaboratorio(data) {
 	const [ editNombre, seteditNombre ] = useState(data['data'].nombre);
 	const [ editUbicacion, seteditUbicacion ] = useState(data['data'].ubicacion);
 	const [ editObservacion, seteditObservacion ] = useState(data['data'].observacion);
+	const [ editEstado, seteditEstado ] = useState(data['data'].estado);
 	const [ editUsuario, seteditUsuario ] = useState(data['data'].usuario_id);
 	const [ editElemento, seteditElemento ] = useState('');
 	const [ editElementop, seteditElementop ] = useState([]);
@@ -69,6 +70,7 @@ function EditarLaboratorio(data) {
 			nombre: editNombre,
 			ubicacion: editUbicacion,
 			observacion: editObservacion,
+			estado: editEstado,
 			usuario_id: editUsuario
 		});
 		if (editElementop.length) {

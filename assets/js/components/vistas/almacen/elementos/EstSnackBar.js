@@ -19,7 +19,7 @@ function checkLevel(level){
 function EstSnackBar() {
 
     const context = useContext(TodoContext);
-    const handleClose = () =>{
+    const handleClose = () => {
 		context.setMessage({});
 	}
 
